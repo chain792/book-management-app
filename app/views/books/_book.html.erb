@@ -1,28 +1,56 @@
-<div class="card mb-3", style="height: 350px; min-width: 300px;">
-  <div class="row g-0", style="height: 220px">
-    <div class="col-5">
-      <%= image_tag book.book_image.url, class: 'img-fluid ms-2 mt-2 border book-img' %>
+<div class="relative mb-3 h-[350px] min-w-[300px] rounded-lg border border-gray-200 bg-white shadow-sm">
+  <!-- 上部 -->
+  <div class="flex h-[220px]">
+    <!-- 画像 -->
+    <div class="w-5/12">
+      <%= image_tag book.book_image.url,
+        class: "ml-2 mt-2 h-auto max-w-full rounded border" %>
     </div>
-    <div class="col-7">
-      <div class="card-body">
-        <h5 class="card-title"><%= book.title.truncate(30) %></h5>
-        <p class="card-text mb-2"><%= book.authors.pluck(:name).join(', ')&.truncate(20) %></p>
-        <p class="card-text"><small class="text-muted"><%= book.published_date %></small></p>
+
+    <!-- 本情報 -->
+    <div class="w-7/12">
+      <div class="p-4">
+        <h5 class="mb-1 text-base font-semibold text-gray-900">
+          <%= book.title.truncate(30) %>
+        </h5>
+
+        <p class="mb-2 text-sm text-gray-700">
+          <%= book.authors.pluck(:name).join(', ')&.truncate(20) %>
+        </p>
+
+        <p class="text-xs text-gray-500">
+          <%= book.published_date %>
+        </p>
       </div>
     </div>
   </div>
-  <div class="d-flex border-top pt-2">
+
+  <!-- ユーザー情報 -->
+  <div class="flex items-start border-t border-gray-200 pt-2">
     <div>
-      <%= image_tag book.user.avatar.url, class: 'rounded-circle mt-1 ms-2 me-3', size: '40x40' %>
+      <%= image_tag book.user.avatar.url,
+        class: "ml-2 mt-1 mr-3 h-10 w-10 rounded-full object-cover" %>
     </div>
+
     <div>
-      <p class="fs-7 mb-1"><%= book.user.name %></p>
-      <p class="card-text mb-2">
-        <small class="text-muted"><%= date_ago(book.created_at) %></small>
-        <span class="badge bg-secondary ms-1"><%= book.category.name %></span>
+      <p class="mb-1 text-xs text-gray-900">
+        <%= book.user.name %>
+      </p>
+
+      <p class="mb-2 text-xs text-gray-500">
+        <%= date_ago(book.created_at) %>
+        <span class="ml-1 inline-block rounded bg-gray-200 px-2 py-0.5 text-[10px] text-gray-700">
+          <%= book.category.name %>
+        </span>
       </p>
     </div>
   </div>
-  <p class="card-text mx-3"><%= book.body.truncate(30) %></p>
-  <%= link_to '', book_path(book), class: 'card-link' %>
+
+  <!-- 本文 -->
+  <p class="mx-3 mt-1 text-sm text-gray-800">
+    <%= book.body.truncate(30) %>
+  </p>
+
+  <!-- カード全体リンク -->
+  <%= link_to "", book_path(book), class: "absolute inset-0" %>
 </div>

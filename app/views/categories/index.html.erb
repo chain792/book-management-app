@@ -1,20 +1,33 @@
 <% content_for(:title, t('.title')) %>
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-      <div class="bg-white border rounded-2 px-4">
-        <p class="pt-3 fw-bolder fs-5">カテゴリ一覧</p>
-      </div>
-      <div class="bg-white border rounded-2 mt-3 px-4 categories">
-        <% @categories.roots.each do |parent_category| %>
-          <p class="pt-3 pb-2 border-bottom"><%= link_to parent_category.name, category_path(parent_category), class: 'link-secondary d-block' %></p>
-          <div class="row mx-1">
-            <% parent_category.children.each do |child_category| %>
-              <p class="col-md-6"><%= link_to child_category.name, category_path(child_category), class: 'link-secondary d-block' %></p>
-            <% end %>
-          </div>
+
+<div class="mx-auto mt-3 max-w-3xl px-4">
+  <!-- タイトル -->
+  <div class="rounded-lg border border-gray-200 bg-white px-4">
+    <p class="pt-3 text-lg font-bold text-gray-900">
+      カテゴリ一覧
+    </p>
+  </div>
+
+  <!-- カテゴリ一覧 -->
+  <div class="mt-3 rounded-lg border border-gray-200 bg-white px-4">
+    <% @categories.roots.each do |parent_category| %>
+      <!-- 親カテゴリ -->
+      <p class="border-b border-gray-200 py-3">
+        <%= link_to parent_category.name,
+          category_path(parent_category),
+          class: "block font-medium text-gray-700 hover:text-gray-900" %>
+      </p>
+
+      <!-- 子カテゴリ -->
+      <div class="grid grid-cols-1 gap-y-2 gap-x-4 px-1 py-3 md:grid-cols-2">
+        <% parent_category.children.each do |child_category| %>
+          <p>
+            <%= link_to child_category.name,
+              category_path(child_category),
+              class: "block text-sm text-gray-600 hover:text-gray-900" %>
+          </p>
         <% end %>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>

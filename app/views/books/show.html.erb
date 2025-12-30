@@ -1,65 +1,121 @@
 <% content_for(:title, @book.title) %>
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-md-10 offset-md-1 col-xxl-8 offset-xxl-2">
-      <p class="mb-2">
-        <small class="text-muted">
-          <% @book.category.path.each_with_index do |category, index| %>
-            <%= link_to category.name, category_path(category), class: 'link-secondary' %>
-            <%= ' › ' unless index == @book.category.path.length - 1 %>
+
+<div class="mx-auto mt-3 max-w-5xl px-4">
+  <!-- パンくず -->
+  <p class="mb-2 text-xs text-gray-500">
+    <% @book.category.path.each_with_index do |category, index| %>
+      <%= link_to category.name,
+        category_path(category),
+        class: "text-gray-500 hover:text-gray-700 underline" %>
+      <%= " › " unless index == @book.category.path.length - 1 %>
+    <% end %>
+  </p>
+
+  <!-- タイトル -->
+  <h2 class="text-2xl font-bold text-gray-900">
+    <%= @book.title %>
+  </h2>
+
+  <p class="text-sm text-gray-700">
+    <%= "#{@book.authors.pluck(:name).join(', ')} (著)" unless @book.authors.pluck(:name).blank? %>
+  </p>
+
+  <p class="text-xs text-gray-500">
+    <%= "発売日: #{@book.published_date}" unless @book.published_date.blank? %>
+  </p>
+
+  <!-- メインカード -->
+  <div class="mb-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div class="flex flex-col gap-4 lg:flex-row">
+      <!-- 左：書影 -->
+      <div class="w-full lg:w-1/4">
+        <%= image_tag @book.book_image.url,
+          class: "h-auto max-w-full rounded border" %>
+
+        <p class="mt-3 text-sm">
+          <%= link_to '詳細を見る',
+            @book.info_link,
+            target: '_blank',
+            class: "text-blue-600 hover:text-blue-700 underline" %>
+        </p>
+      </div>
+
+      <!-- 右：情報 -->
+      <div class="w-full lg:w-3/4">
+        <!-- 操作メニュー -->
+        <% if logged_in? && current_user.own?(@book) %>
+          <div class="relative flex justify-end">
+            <details class="group">
+              <summary class="cursor-pointer list-none">
+                <i class="bi bi-gear-fill text-xl text-gray-600"></i>
+              </summary>
+
+              <div class="absolute right-0 z-10 mt-2 w-32 rounded-md border bg-white shadow">
+                <%= link_to '編集する',
+                  edit_book_path(@book),
+                  class: "block px-3 py-2 text-sm hover:bg-gray-100" %>
+
+                <%= link_to '削除',
+                  book_path(@book),
+                  method: :delete,
+                  data: { confirm: t('defaults.message.delete_confirm', item: t('defaults.review')) },
+                  class: "block px-3 py-2 text-sm text-red-600 hover:bg-gray-100" %>
+              </div>
+            </details>
+          </div>
+        <% end %>
+
+        <!-- レビュアー -->
+        <div class="mt-3">
+          <h5 class="mb-3 inline-block border-b border-gray-300 pb-1 text-sm font-semibold">
+            レビュアー
+          </h5>
+
+          <%= link_to user_path(@book.user),
+            class: "flex items-center gap-3 hover:opacity-80" do %>
+            <%= image_tag @book.user.avatar.url,
+              class: "h-12 w-12 rounded-full object-cover" %>
+
+            <p class="text-base font-medium text-gray-900">
+              <%= @book.user.name %>
+            </p>
           <% end %>
-        </small>
-      </p>
-      <h2><%= @book.title %></h2>
-      <p><%= "#{@book.authors.pluck(:name).join(', ')} (著)" unless @book.authors.pluck(:name).blank? %></p>
-      <p><small class="text-muted"><%= "発売日: #{@book.published_date}" unless @book.published_date.blank? %></small></p>
-      <div class="card p-3 mb-3">
-        <div class="row g-0">
-          <div class="col-4 col-lg-3">
-              <%= image_tag @book.book_image.url, class: 'img-fluid border' %><br>
-              <p class="m-3"><%= link_to '詳細を見る', @book.info_link, target: '_blank' %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- レビュー内容 -->
+    <div class="mt-6">
+      <h5 class="mb-2 border-b border-gray-300 pb-1 text-sm font-semibold">
+        レビュー内容
+      </h5>
+
+      <div class="prose max-w-none text-sm">
+        <%= simple_format @book.body %>
+      </div>
+
+      <!-- フッター -->
+      <div class="mt-3 flex items-center gap-3">
+        <p class="text-xs text-gray-500">
+          <%= l @book.created_at, format: :long %>
+        </p>
+
+        <div class="ml-auto flex items-center gap-3">
+          <div id="like-button-for-book-<%= @book.id %>">
+            <%= render 'likes/like_button', book: @book %>
           </div>
-          <div class="col-8 col-lg-9">
-            <% if logged_in? && current_user.own?(@book) %>
-              <div class="dropdown float-end me-1">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-gear-fill fs-5"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                  <li><%= link_to '編集する', edit_book_path(@book), class: 'dropdown-item' %></li>
-                  <li>
-                    <%= link_to '削除', book_path(@book), class: 'dropdown-item text-danger', method: :delete, data: {confirm: t('defaults.message.delete_confirm', item: t('defaults.review'))} %>
-                  </li>
-                </ul>
-              </div>
-            <% end %>
-            <div class="ms-3 ms-md-1">
-              <h5 class="border-bottom d-inline-block pb-1 mt-1 mt-md-3 mb-3">レビュアー</h5>
-              <div>
-                <%= link_to user_path(@book.user), class: 'd-md-inline-flex align-items-center hover-decoration' do %>
-                    <%= image_tag @book.user.avatar.url, class: 'rounded-circle ms-3 ms-md-1 me-3 mb-2', size: '50x50' %>
-                    <p class="fs-5 pt-2"><%= @book.user.name %></p>
-                <% end %>
-              </div>
-            </div>
-          </div>
+
           <div>
-            <h5 class="mt-3 border-bottom pb-1">レビュー内容</h5>
-            <p class="card-j"><%= simple_format @book.body %></p>
-            <div class="d-flex">
-              <p class="card-tejxt mb-2"><small class="text-muted"><%= l @book.created_at, format: :long %></small></p>
-              <div class="ms-auto like-button d-flex" id="like-button-for-book-<%= @book.id %>">
-                <%= render 'likes/like_button', book: @book %>
-              </div>
-              <div class="twitter-share me-2">
-                <%= render 'books/twitter_share', book: @book %>
-              </div>
-            </div>
+            <%= render 'books/twitter_share', book: @book %>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <!-- コメント -->
-  <%= render 'comments/comments', comments: @comments, comment: @comment, book: @book %>
+  <%= render 'comments/comments',
+    comments: @comments,
+    comment: @comment,
+    book: @book %>
 </div>

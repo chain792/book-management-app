@@ -1,37 +1,76 @@
-<li class="border-bottom ps-2" id="comment-<%= comment.id %>">
-  <div class="" style="display: inline-block">
-    <div class="d-flex">
+<li class="border-b border-gray-200 pl-2" id="comment-<%= comment.id %>">
+  <!-- ユーザー情報 -->
+  <div class="inline-block">
+    <div class="flex items-start">
       <div>
-        <%= image_tag comment.user.avatar.url, class: 'rounded-circle mt-2 ms-1 me-3', size: '40x40' %>
+        <%= image_tag comment.user.avatar.url,
+          class: "mt-2 ml-1 mr-3 h-10 w-10 rounded-full object-cover" %>
       </div>
+
       <div>
-        <p class="fs-7 my-1"><%= comment.user.name %></p>
-        <p ><small class="text-muted"><%= l comment.created_at, format: :long %></small></p>
+        <p class="my-1 text-xs font-medium text-gray-900">
+          <%= comment.user.name %>
+        </p>
+        <p class="text-xs text-gray-500">
+          <%= l comment.created_at, format: :long %>
+        </p>
       </div>
     </div>
   </div>
-  <div class="ms-1" id="show-comment-<%= comment.id %>">
+
+  <!-- コメント表示 -->
+  <div class="ml-1" id="show-comment-<%= comment.id %>">
     <% if logged_in? && current_user.own?(comment) %>
-      <div class="dropdown float-end me-3">
-        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-gear-fill fs-5"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-          <li><%= link_to '編集する', '#', class: 'dropdown-item js-edit-comment-button', data: { 'comment-id': comment.id } %></li>
-          <li>
-            <%= link_to '削除', comment_path(comment), class: 'dropdown-item text-danger', method: :delete, remote: true,
-                data: { confirm: t('defaults.message.delete_confirm', item: Comment.human_attribute_name('body')) } %>
-          </li>
-        </ul>
+      <!-- 操作メニュー -->
+      <div class="relative float-right mr-3">
+        <details class="group">
+          <summary class="cursor-pointer list-none">
+            <i class="bi bi-gear-fill text-xl text-gray-600"></i>
+          </summary>
+
+          <div class="absolute right-0 z-10 mt-2 w-32 rounded-md border bg-white shadow">
+            <%= link_to '編集する',
+              '#',
+              class: "block px-3 py-2 text-sm hover:bg-gray-100 js-edit-comment-button",
+              data: { 'comment-id': comment.id } %>
+
+            <%= link_to '削除',
+              comment_path(comment),
+              method: :delete,
+              remote: true,
+              data: { confirm: t('defaults.message.delete_confirm', item: Comment.human_attribute_name('body')) },
+              class: "block px-3 py-2 text-sm text-red-600 hover:bg-gray-100" %>
+          </div>
+        </details>
       </div>
     <% end %>
-    <div class="mb-1" id="comment-body-<%= comment.id %>">
+
+    <div class="mb-1 text-sm text-gray-800" id="comment-body-<%= comment.id %>">
       <%= simple_format comment.body %>
     </div>
   </div>
-  <div id="edit-comment-<%= comment.id %>" style="display: none;" class="me-3">
-    <textarea id="textarea-comment-<%= comment.id %>" class="form-control mb-1" placeholder="コメントを追加…"><%= comment.body %></textarea>
-    <button class="btn btn-light js-cancel-edit-comment-button" data-comment-id="<%= comment.id %>">キャンセル</button>
-    <button class="btn btn-primary js-update-comment-button" data-comment-id="<%= comment.id %>">保存</button>
+
+  <!-- 編集フォーム -->
+  <div id="edit-comment-<%= comment.id %>" class="mr-3 hidden">
+    <textarea
+      id="textarea-comment-<%= comment.id %>"
+      class="mb-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm
+             focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+      placeholder="コメントを追加…"><%= comment.body %></textarea>
+
+    <div class="flex gap-2">
+      <button
+        class="rounded-md bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300 js-cancel-edit-comment-button"
+        data-comment-id="<%= comment.id %>">
+        キャンセル
+      </button>
+
+      <button
+        class="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700
+               js-update-comment-button"
+        data-comment-id="<%= comment.id %>">
+        保存
+      </button>
+    </div>
   </div>
 </li>

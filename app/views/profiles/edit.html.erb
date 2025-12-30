@@ -1,34 +1,55 @@
 <% content_for(:title, t('.title')) %>
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-      <h1 class="mb-3"><%= t('.title') %></h1>
-      <div class="bg-white border rounded-3 p-4">
-      <%= form_with model: @user, url: profile_path do |f| %>
-        <%= render 'shared/error_message' , object: f.object %>
+<div class="mt-3">
+  <div class="mx-auto max-w-3xl px-4">
+    <h1 class="mb-3 text-2xl font-semibold"><%= t('.title') %></h1>
+
+    <div class="bg-white border rounded-lg p-6 shadow-sm">
+      <%= form_with model: @user, url: profile_path, class: "space-y-5" do |f| %>
+        <%= render 'shared/error_message', object: f.object %>
+
         <% if @user.role != 'guest' %>
-          <div class="mb-4">
-            <%= f.label :email, class: 'form-label fw-bolder' %>
-            <%= f.email_field :email, class: "form-control" %>
+          <div>
+            <%= f.label :email, class: 'block text-sm font-semibold text-gray-700 mb-1' %>
+            <%= f.email_field :email,
+                  class: 'w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-200' %>
           </div>
         <% end %>
-        <div class="mb-4">
-          <%= f.label :name, class: 'form-label fw-bolder' %>
-          <%= f.text_field :name, class: "form-control" %>
+
+        <div>
+          <%= f.label :name, class: 'block text-sm font-semibold text-gray-700 mb-1' %>
+          <%= f.text_field :name,
+                class: 'w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-200' %>
         </div>
-        <div class="mb-4">
-          <%= f.label :avatar, class: 'form-label fw-bolder' %><br>
-          <%= image_tag @user.avatar.url, id: 'preview', class: 'rounded-circle mr15', size: '80x80' %>
-          <%= f.file_field :avatar, class: 'border rounded-3 p-1 m-3', accept: 'image/*' , id: 'file-field' %> 
-          <%= f.hidden_field :avatar_cache %>
+
+        <div>
+          <%= f.label :avatar, class: 'block text-sm font-semibold text-gray-700 mb-2' %>
+          <div class="flex items-center gap-4">
+            <%= image_tag @user.avatar.url,
+                  id: 'preview',
+                  class: 'h-20 w-20 rounded-full object-cover',
+                  size: '80x80' %>
+            <div>
+              <%= f.file_field :avatar,
+                    id: 'file-field',
+                    accept: 'image/*',
+                    class: 'rounded-md border border-gray-300 px-2 py-1 text-sm' %>
+              <%= f.hidden_field :avatar_cache %>
+            </div>
+          </div>
         </div>
-        <div class="mb-4">
-          <%= f.label :introduction, class: 'form-label fw-bolder' %>
-          <%= f.text_area :introduction, class: "form-control", rows: 5 %>
+
+        <div>
+          <%= f.label :introduction, class: 'block text-sm font-semibold text-gray-700 mb-1' %>
+          <%= f.text_area :introduction,
+                rows: 5,
+                class: 'w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-200' %>
         </div>
-        <%= f.submit class: "btn btn-primary" %>
+
+        <div>
+          <%= f.submit t('defaults.update'),
+                class: 'rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300' %>
+        </div>
       <% end %>
-      </div>
     </div>
   </div>
 </div>

@@ -16,10 +16,19 @@ Rails.application.config.sorcery.configure do |config|
   # config.not_authenticated_action =
 
   # When a non logged-in user tries to enter a page that requires login, save
-  # the URL he wants to reach, and send him there after login, using 'redirect_back_or_to'.
+  # the URL he wants to reach, and send him there after login, using 'redirect_to_before_login_path'.
   # Default: `true`
   #
   # config.save_return_to_url =
+
+  # Set whether to use 'redirect_back_or_to' defined in Rails 7.
+  # Rails 7 released a new method called 'redirect_back_or_to' as a replacement for 'redirect_back'.
+  # That may conflict with the method by the same name defined by Sorcery.
+  # If you set this option to true, Sorcery's 'redirect_back_or_to' calls 'super' to use
+  # the method of the same name defined in Rails 7.
+  # Default: `false`
+  #
+  # config.use_redirect_back_or_to_by_rails =
 
   # Set domain option for cookies; Useful for remember_me submodule.
   # Default: `nil`
@@ -30,12 +39,6 @@ Rails.application.config.sorcery.configure do |config|
   # Default: `true`
   #
   # config.remember_me_httponly =
-
-  # Set token randomness. (e.g. user activation tokens)
-  # The length of the result string is about 4/3 of `token_randomness`.
-  # Default: `15`
-  #
-  # config.token_randomness =
 
   # -- session timeout --
   # How long in seconds to keep the session alive.
@@ -74,6 +77,11 @@ Rails.application.config.sorcery.configure do |config|
   # Default: `true`
   #
   # config.register_last_activity_time =
+
+  # Will register the source ip address of last user login, every login.
+  # Default: `true`
+  #
+  # config.register_last_ip_address =
 
   # -- external --
   # What providers are supported by this app
@@ -226,7 +234,7 @@ Rails.application.config.sorcery.configure do |config|
   # config.line.bot_prompt = "normal"
   # config.line.user_info_mapping = {name: 'displayName'}
 
-  
+
   # For information about Discord API
   # https://discordapp.com/developers/docs/topics/oauth2
   # config.discord.key = "xxxxxx"
@@ -283,6 +291,12 @@ Rails.application.config.sorcery.configure do |config|
     # Default: 1 in test env, `nil` otherwise
     #
     user.stretches = 1 if Rails.env.test?
+
+    # Set token randomness. (e.g. user activation tokens)
+    # The length of the result string is about 4/3 of `token_randomness`.
+    # Default: `15`
+    #
+    # user.token_randomness =
 
     # Encryption key used to encrypt reversible encryptions such as AES256.
     # WARNING: If used for users' passwords, changing this key will leave passwords undecryptable!
@@ -362,8 +376,8 @@ Rails.application.config.sorcery.configure do |config|
     # user.activation_mailer_disabled =
 
     # Method to send email related
-    # options: `:deliver_later`, `:deliver_now`, `:deliver`
-    # Default: :deliver (Rails version < 4.2) or :deliver_now (Rails version 4.2+)
+    # options: `:deliver_later`, `:deliver_now`
+    # Default: :deliver_now
     #
     # user.email_delivery_method =
 

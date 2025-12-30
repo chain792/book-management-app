@@ -1,4 +1,10 @@
-<%= link_to likes_path(book_id: book.id), method: :post, remote: true do %>
-  <i class="bi bi-heart fs-4 text-secondary"></i>
+<%= link_to likes_path(book_id: book.id),
+            method: :post,
+            remote: true,
+            class: "hover:text-red-500" do %>
+  <i class="bi bi-heart text-xl text-gray-500"></i>
 <% end %>
-<span class="like-count text-secondary"><%= book.likes.length unless book.likes.length == 0 %></span>
+
+<span class="ml-1 text-gray-500 like-count">
+  <%= book.likes.length unless book.likes.length.zero? %>
+</span>

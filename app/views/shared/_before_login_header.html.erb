@@ -1,9 +1,13 @@
 <header>
-  <nav class="navbar navbar-dark bg-info">
-    <div class="container-fluid">
-      <%= link_to 'EngineerBook', root_path, class: 'navbar-brand' %>
+  <nav class="bg-cyan-500">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <%= link_to 'EngineerBook', root_path, class: 'text-white text-xl font-semibold' %>
+
       <%= link_to login_path do %>
-        <button class="btn btn-light text-dark rounded-3">ログイン or 新規登録</button>
+        <span class="inline-block bg-white text-gray-800 rounded-lg px-4 py-2 text-sm font-medium
+                     hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+          ログイン or 新規登録
+        </span>
       <% end %>
     </div>
   </nav>
