@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:18-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5433:5432"
+
+  app:
+    build: .
+    volumes:
+      - .:/myapp
+      - bundle:/usr/local/bundle
+      - node_modules:/myapp/node_modules
+    ports:
+      - "3000:3000"
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      # - selenium_chrome
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/myapp_development
+
+  # selenium_chrome:
+  #   image: seleniarm/standalone-chromium
+  #   ports:
+  #     - 4444:4444
+
+volumes:
+  db:
+  bundle:
+  node_modules:
