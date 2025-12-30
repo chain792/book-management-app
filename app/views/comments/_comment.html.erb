@@ -1,0 +1,37 @@
+<li class="border-bottom ps-2" id="comment-<%= comment.id %>">
+  <div class="" style="display: inline-block">
+    <div class="d-flex">
+      <div>
+        <%= image_tag comment.user.avatar.url, class: 'rounded-circle mt-2 ms-1 me-3', size: '40x40' %>
+      </div>
+      <div>
+        <p class="fs-7 my-1"><%= comment.user.name %></p>
+        <p ><small class="text-muted"><%= l comment.created_at, format: :long %></small></p>
+      </div>
+    </div>
+  </div>
+  <div class="ms-1" id="show-comment-<%= comment.id %>">
+    <% if logged_in? && current_user.own?(comment) %>
+      <div class="dropdown float-end me-3">
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-gear-fill fs-5"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+          <li><%= link_to '編集する', '#', class: 'dropdown-item js-edit-comment-button', data: { 'comment-id': comment.id } %></li>
+          <li>
+            <%= link_to '削除', comment_path(comment), class: 'dropdown-item text-danger', method: :delete, remote: true,
+                data: { confirm: t('defaults.message.delete_confirm', item: Comment.human_attribute_name('body')) } %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+    <div class="mb-1" id="comment-body-<%= comment.id %>">
+      <%= simple_format comment.body %>
+    </div>
+  </div>
+  <div id="edit-comment-<%= comment.id %>" style="display: none;" class="me-3">
+    <textarea id="textarea-comment-<%= comment.id %>" class="form-control mb-1" placeholder="コメントを追加…"><%= comment.body %></textarea>
+    <button class="btn btn-light js-cancel-edit-comment-button" data-comment-id="<%= comment.id %>">キャンセル</button>
+    <button class="btn btn-primary js-update-comment-button" data-comment-id="<%= comment.id %>">保存</button>
+  </div>
+</li>

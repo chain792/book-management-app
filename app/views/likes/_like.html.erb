@@ -1,0 +1,4 @@
+<%= link_to like_path(current_user.likes.find { |v| v.book_id == book.id }), method: :delete, remote: true do %>
+  <i class="bi bi-heart-fill fs-4"></i>
+<% end %>
+<span class="like-count like-color"><%= book.likes.length unless book.likes.length == 0 %></span>

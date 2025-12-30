@@ -1,0 +1,5 @@
+<%= button_to 'フォロー中',
+    relationship_path((current_user.active_relationships.find { |v| v.follower_id == user.id })),
+    class: 'btn btn-light rounded-pill',
+    method: :delete,
+    remote: true %>

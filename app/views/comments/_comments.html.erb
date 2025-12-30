@@ -1,0 +1,16 @@
+<div class="row mt-3">
+  <div class="col-md-10 offset-md-1 col-xxl-8 offset-xxl-2">
+    <div class="bg-white border rounded-2">
+      <p class="pt-3 ps-3 pb-2 border-bottom border-warning border-3 fs-5">
+        コメント (<span id="comment-count"><%= comments.length %></span>件)
+      </p>
+      <ol id="comments-list">
+        <%= render comments %>
+      </ol>
+      <!-- コメント投稿 -->
+      <div class="pt-3 px-3 pb-3">
+        <%= render 'comments/form', book: book, comment: comment %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<% content_for(:title, t('.title')) %>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+      <div class="bg-white border rounded-2 px-4">
+        <p class="pt-3 fw-bolder fs-5">カテゴリ一覧</p>
+      </div>
+      <div class="bg-white border rounded-2 mt-3 px-4 categories">
+        <% @categories.roots.each do |parent_category| %>
+          <p class="pt-3 pb-2 border-bottom"><%= link_to parent_category.name, category_path(parent_category), class: 'link-secondary d-block' %></p>
+          <div class="row mx-1">
+            <% parent_category.children.each do |child_category| %>
+              <p class="col-md-6"><%= link_to child_category.name, category_path(child_category), class: 'link-secondary d-block' %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

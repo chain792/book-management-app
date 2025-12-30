@@ -1,0 +1,4 @@
+<%= link_to likes_path(book_id: book.id), method: :post, remote: true do %>
+  <i class="bi bi-heart fs-4 text-secondary"></i>
+<% end %>
+<span class="like-count text-secondary"><%= book.likes.length unless book.likes.length == 0 %></span>

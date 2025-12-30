@@ -1,0 +1,16 @@
+<aside class="offcanvas offcanvas-start w-250px" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header pb-0">
+    <button type="button" class="btn-close text-reset ms-auto me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <nav>
+      <ul class="nav flex-column">
+        <li class="nav-item"><%= link_to '投稿一覧', books_path, class: 'nav-link side-link text-dark fw-bolder p-3' %></li>
+        <li class="nav-item"><%= link_to 'カテゴリ', categories_path, class: 'nav-link side-link text-dark fw-bolder p-3' %></li>
+        <li class="nav-item"><%= link_to '新規投稿', search_books_path, class: 'nav-link side-link text-dark fw-bolder p-3' %></li>
+        <li class="nav-item"><%= link_to t('profiles.show.title'), profile_path, class: 'nav-link side-link text-dark fw-bolder p-3' %></li>
+        <li class="nav-item"><%= link_to t('defaults.logout'), logout_path, method: :delete, class: 'nav-link side-link text-dark fw-bolder p-3' %></li>
+      </ul>
+    </nav>
+  </div>
+</aside>

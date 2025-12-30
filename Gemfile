@@ -40,6 +40,22 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+gem "dotenv-rails"
+gem "faraday"
+gem "rails-i18n", "~> 8.0"
+gem "sorcery"
+gem "carrierwave", "~> 3.0"
+gem "mini_magick"
+gem "fog-aws"
+gem "ancestry"
+gem "gon"
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-twitter"
+gem "seed-fu"
+gem "sitemap_generator"
+gem "meta-tags"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -52,9 +68,22 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "rspec-rails"
+  gem "factory_bot_rails"
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "foreman"
+end
+
+group :test do
+  # Adds support for Capybara system testing and selenium driver
+  gem "capybara"
+  gem "selenium-webdriver"
+  # Easy installation and use of web drivers to run system tests with browsers
+  gem "webdrivers"
+  gem "simplecov", require: false
 end

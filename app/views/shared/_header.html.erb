@@ -1,0 +1,32 @@
+<header class="position-sticky top-0 start-0">
+  <nav class="navbar navbar-expand-md navbar-dark bg-info">
+    <div class="container-fluid justify-content-start">
+      <button class="navbar-toggler me-3 border border-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <%= link_to 'EngineerBook', root_path, class: 'navbar-brand' %>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav nav ms-auto">
+          <li class="nav-item">
+            <%= link_to '投稿一覧', books_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'カテゴリ', categories_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item me-3">
+            <%= link_to '新規投稿', search_books_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item dropdown">
+            <%= link_to profile_path, id: 'dropdownMenuLink', 'aria-expanded': false, class: 'dropdown-toggle' do %>
+              <%= image_tag current_user.avatar.url, size: '40x40', class: 'rounded-circle me-2' %>
+            <% end %>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+              <li><%= link_to t('profiles.show.title'), profile_path, class: 'dropdown-item' %></li>
+              <li><%= link_to t('defaults.logout'), logout_path, method: :delete, class: 'dropdown-item' %></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

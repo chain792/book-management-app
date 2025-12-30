@@ -1,0 +1,59 @@
+<% content_for(:title, t('.title')) %>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-10 offset-md-1 col-xl-8 offset-xl-2">
+      <h1 class="mb-3"><%= t('.title') %></h1>
+      <div class="bg-white border rounded-2 p-3" style="min-width: 300px;">
+        <div class="d-md-flex">
+          <%= image_tag current_user.avatar.url, size: '60x60', class: 'm-3 me-md-5 rounded-circle' %>
+          <div class="flex-fill mt-1 mt-md-0">
+            <table class="table table-borderless">
+              <tr>
+                <td class="fs-7 fw-bolder"><%= User.human_attribute_name('name') %>:</th>
+                <td><%= current_user.name %></td>
+              </tr>
+              <% if current_user.role != 'guest' %>
+                <tr>
+                  <td class="fs-7 fw-bolder"><%= User.human_attribute_name('email') %>:</th>
+                  <td><%= current_user.email %></td>
+                </tr>
+              <% end %>
+              <tr>
+                <td class="fs-7 fw-bolder">参加日:</th>
+                <td><%= date(current_user.created_at) %></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="pt-3">
+          <p class="border-bottom fs-7 fw-bolder mb-2">自己紹介</p>
+          <p class=""><%= simple_format current_user.introduction %></p>
+        </div>
+        <div class="d-flex mb-3">
+          <%= link_to following_user_path(current_user), class: 'me-3 mb-0 text-decoration-none', id: 'follow-count' do %>
+            <span class="text-dark"><%= current_user.followings.length %></span><small class="text-secondary"> フォロー中</small>
+          <% end %>
+          <%= link_to follower_user_path(current_user), class: 'mb-0 text-decoration-none', id: 'follower-count' do %>
+            <span class="text-dark"><%= current_user.followers.length %></span><small class="text-secondary"> フォロワー</small>
+          <% end %>
+        </div>
+        <%= link_to t('defaults.edit'), edit_profile_path, class: 'btn btn-primary' %>
+      </div>
+      <div class="bg-white border rounded-2 px-4 mt-3" style="min-width: 300px;">
+        <p class="pt-3 fw-bolder">レビュー履歴</p>
+      </div>
+      <!-- 投稿一覧 -->
+      <div class="row mt-3">
+        <% if @books.present? %>
+          <% @books.each do |book| %>
+            <div class="col-lg-6 col-12">
+              <%= render 'books/book', book: book %>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-secondary"><%= t('.no_result') %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+$("#error-message").remove()
+<% if @comment.errors.any? %>
+  $("#new-comment").prepend("<%= j render('shared/error_message', object: @comment) %>")
+<% else %>
+  $("#comments-list").append("<%= j render('comment', comment: @comment) %>")
+  $("#new-comment-body").val("")
+  $("#comment-count").text(Number($("#comment-count").text()) + 1)
+<% end %>
