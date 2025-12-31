@@ -9,7 +9,7 @@ RSpec.describe 'Books', type: :system do
     before { login_as(me) }
 
     context '正常系' do
-      xit '検索した本を新規追加できる' do
+      it '検索した本を新規追加できる' do
         # 検索画面から本を検索
         visit search_books_path
         expect(page).to have_current_path search_books_path
@@ -65,7 +65,9 @@ RSpec.describe 'Books', type: :system do
       it '本の削除ができる' do
         visit book_path(book_by_me)
         title = book_by_me.title
-        find('.card .dropdown').click
+        within '[data-controller="dropdown"]' do
+          find('button').click
+        end
         expect {
           click_link '削除'
           page.accept_confirm
@@ -77,12 +79,12 @@ RSpec.describe 'Books', type: :system do
 
       it '自分が追加した本には歯車アイコンが表示される' do
         visit book_path(book_by_me)
-        expect(page).to have_css '.card .dropdown'
+        expect(page).to have_selector('[data-controller="dropdown"]')
       end
 
       it '他人が追加した本には歯車アイコンが表示されない' do
         visit book_path(book)
-        expect(page).not_to have_css '.card .dropdown'
+        expect(page).not_to have_selector('[data-controller="dropdown"]')
       end
     end
 
@@ -105,7 +107,7 @@ RSpec.describe 'Books', type: :system do
         select 'プログラミング', from: 'parent_category'
         select 'Ruby', from: 'child_category'
         expect { click_button '登録する' }.to change { Book.count }.by(0)
-        expect(page).to have_current_path books_path
+        expect(page).to have_current_path new_book_path, ignore_query: true
         expect(page).to have_content 'レビューを作成できませんでした'
         expect(page).to have_content 'レビューは5文字以上で入力してください'
       end
@@ -114,7 +116,7 @@ RSpec.describe 'Books', type: :system do
         visit edit_book_path(book_by_me)
         fill_in 'レビュー', with: ''
         click_button '更新する'
-        expect(page).to have_current_path book_path(book_by_me)
+        expect(page).to have_current_path edit_book_path(book_by_me)
         expect(page).to have_content 'レビューを更新できませんでした'
         expect(page).to have_content 'レビューは5文字以上で入力してください'
       end

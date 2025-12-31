@@ -20,7 +20,7 @@ class BooksController < ApplicationController
       set_category
       set_volume_info
       flash.now[:danger] = t("defaults.message.not_created", item: t("defaults.review"))
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
     end
   end
 
@@ -36,17 +36,17 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to book_path(@book), success: t("defaults.message.updated", item: t("defaults.review"))
+      redirect_to book_path(@book), success: t("defaults.message.updated", item: t("defaults.review")), status: :see_other
     else
       set_category
       flash.now[:danger] = t("defaults.message.not_updated", item: t("defaults.review"))
-      render "edit"
+      render "edit", status: :unprocessable_content
     end
   end
 
   def destroy
     @book.destroy!
-    redirect_to books_path, success: t("defaults.message.deleted", item: t("defaults.review"))
+    redirect_to books_path, success: t("defaults.message.deleted", item: t("defaults.review")), status: :see_other
   end
 
   def search

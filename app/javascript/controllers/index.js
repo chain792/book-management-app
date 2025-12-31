@@ -7,5 +7,8 @@ import { application } from "./application"
 import CategorySelectController from "./category_select_controller"
 application.register("category-select", CategorySelectController)
 
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
