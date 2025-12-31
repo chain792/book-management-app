@@ -15,7 +15,7 @@ RSpec.describe 'Likes', type: :system do
           find('i.bi.bi-heart').click
           expect(page).to have_selector 'i.bi.bi-heart-fill'
         }.to change{ Like.count }.by(1)
-        expect(current_path).to eq book_path(book)
+        expect(page).to have_current_path book_path(book)
       end
 
       it 'いいね解除できる' do
@@ -25,7 +25,7 @@ RSpec.describe 'Likes', type: :system do
           find('i.bi.bi-heart-fill').click
           expect(page).to have_selector 'i.bi.bi-heart'
         }.to change{ Like.count }.by(-1)
-        expect(current_path).to eq book_path(like_by_me.book)
+        expect(page).to have_current_path book_path(like_by_me.book)
       end
     end
   end

@@ -20,14 +20,12 @@ services:
     tty: true
     depends_on:
       - db
-      # - selenium_chrome
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/myapp_development
+      - selenium_chrome
 
-  # selenium_chrome:
-  #   image: seleniarm/standalone-chromium
-  #   ports:
-  #     - 4444:4444
+  selenium_chrome:
+    image: seleniarm/standalone-chromium
+    ports:
+      - 4444:4444
 
 volumes:
   db:

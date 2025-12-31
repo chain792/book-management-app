@@ -39,7 +39,11 @@
   </div>
 
   <!-- 投稿フォーム -->
-  <%= form_with model: @book, url: books_path do |f| %>
+  <%= form_with model: @book, url: books_path, 
+      data: { 
+        controller: "category-select", 
+        category_select_categories_value: @categories.to_json 
+      } do |f| %>
     <%= render 'shared/error_message', object: f.object %>
 
     <!-- 本文 -->
@@ -55,16 +59,17 @@
     </div>
 
     <!-- カテゴリ選択 -->
-    <div class="mb-3" id="category-select-form">
-      <%= f.label :category,
-        class: "mb-1 block text-sm font-bold text-gray-900" %>
-
+    <div class="mb-3" id="category-select-form" data-category-select-target="childContainer">
+      <%= f.label :category, class: "mb-1 block text-sm font-bold text-gray-900" %>
+      
       <%= f.select :parent_category,
         @parent_category,
         { include_blank: "大カテゴリを選択" },
-        class: "mb-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm
-               focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500",
-        id: "parent_category" %>
+        { 
+          id: "parent_category",
+          class: "mb-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500",
+          data: { action: "change->category-select#change" } 
+        } %>
     </div>
 
     <!-- hidden fields -->
@@ -78,11 +83,9 @@
     <% end %>
 
     <!-- submit -->
-    <%= f.submit
-      class: "rounded-md bg-gray-600 px-4 py-2 text-sm font-medium text-white
-              hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50
-              transition-colors",
-      id: "submit-button",
-      disabled: true %>
+    <%= f.submit id: "submit-button",
+        disabled: true,
+        class: "bg-gray-400 text-white px-4 py-2 rounded",
+        data: { category_select_target: "submitButton" } %>
   <% end %>
 </div>

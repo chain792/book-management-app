@@ -20,7 +20,7 @@ RSpec.describe 'Relationships', type: :system do
         }.to change{ Relationship.count }.by(1)
         expect(me.followings.last).to eq others
         expect(others.followers[0]).to eq me
-        expect(current_path).to eq user_path(others)
+        expect(page).to have_current_path user_path(others)
       end
 
       it 'フォロー解除できる' do
@@ -31,7 +31,7 @@ RSpec.describe 'Relationships', type: :system do
         }.to change{ Relationship.count }.by(-1)
         expect(me.followings).to be_empty 
         expect(my_following_user.followers).to be_empty
-        expect(current_path).to eq user_path(my_following_user)
+        expect(page).to have_current_path user_path(my_following_user)
       end
 
       it '自分のユーザー詳細画面にフォローボタンが表示されない' do

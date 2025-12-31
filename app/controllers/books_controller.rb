@@ -15,12 +15,12 @@ class BooksController < ApplicationController
   def create
     @book = current_user.books.build(book_params)
     if @book.save_with_author(authors_params[:authors])
-      redirect_to books_path, success: t('defaults.message.created', item: t('defaults.review'))
+      redirect_to books_path, success: t("defaults.message.created", item: t("defaults.review"))
     else
       set_category
       set_volume_info
-      flash.now[:danger] = t('defaults.message.not_created', item: t('defaults.review'))
-      render 'new'
+      flash.now[:danger] = t("defaults.message.not_created", item: t("defaults.review"))
+      render "new", status: :unprocessable_entity
     end
   end
 
@@ -36,29 +36,29 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to book_path(@book), success: t('defaults.message.updated', item: t('defaults.review'))
+      redirect_to book_path(@book), success: t("defaults.message.updated", item: t("defaults.review"))
     else
       set_category
-      flash.now[:danger] = t('defaults.message.not_updated', item: t('defaults.review'))
-      render 'edit'
+      flash.now[:danger] = t("defaults.message.not_updated", item: t("defaults.review"))
+      render "edit"
     end
   end
 
   def destroy
     @book.destroy!
-    redirect_to books_path, success: t('defaults.message.deleted', item: t('defaults.review'))
+    redirect_to books_path, success: t("defaults.message.deleted", item: t("defaults.review"))
   end
 
-  def search 
+  def search
     if params[:search].nil?
-      return
+      nil
     elsif params[:search].blank?
-      flash.now[:danger] = '検索キーワードが入力されていません'
-      return
+      flash.now[:danger] = "検索キーワードが入力されていません"
+      nil
     else
       url = "https://www.googleapis.com/books/v1/volumes"
       text = params[:search]
-      res = Faraday.get(url, q: text, langRestrict: 'ja', maxResults: 30, key: ENV['GOOGLE_API_KEY'])
+      res = Faraday.get(url, q: text, langRestrict: "ja", maxResults: 30, key: ENV["GOOGLE_API_KEY"])
       @google_books = JSON.parse(res.body)
     end
   end
@@ -67,9 +67,9 @@ class BooksController < ApplicationController
 
   def book_params
     case action_name
-    when 'create'
+    when "create"
       params.require(:book).permit(:title, :body, :remote_book_image_url, :info_link, :published_date).merge(category_id: category_id)
-    when 'update'
+    when "update"
       params.require(:book).permit(:body)
     end
   end
@@ -97,9 +97,8 @@ class BooksController < ApplicationController
   end
 
   def set_category
-    categories = Category.pluck(:id, :name, :ancestry)
-    gon.categories = categories
+    @categories = Category.pluck(:id, :name, :ancestry)
     # 親カテゴリーを取得
-    @parent_category = categories.filter_map { |category| [category[1], category[0]] if category[2].nil? }
+    @parent_category = @categories.filter_map { |category| [ category[1], category[0] ] if category[2].nil? }
   end
 end

@@ -1,5 +1,5 @@
 require 'rails_helper'
-  
+
 RSpec.describe 'UserSessions', type: :system do
   let(:user) { create(:user) }
 
@@ -10,8 +10,8 @@ RSpec.describe 'UserSessions', type: :system do
         fill_in 'メールアドレス', with: user.email
         fill_in 'パスワード',	with: 'password'
         click_button 'ログイン'
-        expect(current_path).to eq profile_path
-        expect(page).to  have_content 'ログインしました'
+        expect(page).to have_current_path profile_path
+        expect(page).to have_content 'ログインしました'
       end
     end
 
@@ -21,8 +21,8 @@ RSpec.describe 'UserSessions', type: :system do
         fill_in 'メールアドレス', with: user.email
         fill_in 'パスワード',	with: ''
         click_button 'ログイン'
-        expect(current_path).to eq login_path
-        expect(page).to  have_content 'ログインに失敗しました'
+        expect(page).to have_current_path login_path
+        expect(page).to have_content 'ログインに失敗しました'
       end
     end
   end
@@ -31,10 +31,10 @@ RSpec.describe 'UserSessions', type: :system do
     context '正常系' do
       it 'ログアウトができる' do
         login_as(user)
-        find('.dropdown').hover
+        find('#user-menu-button').click
         click_link 'ログアウト'
-        expect(current_path).to eq root_path
-        expect(page).to  have_content 'ログアウトしました'
+        expect(page).to have_current_path root_path
+        expect(page).to have_content 'ログアウトしました'
       end
     end
   end

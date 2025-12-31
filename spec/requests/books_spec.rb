@@ -49,19 +49,19 @@ RSpec.describe 'Books', type: :request do
 
   describe 'POST /create' do
     let(:params) {
-      { book: { title: 'request_test_title', body: 'request_test_body', parent_category: 1 } } 
+      { book: { title: 'request_test_title', body: 'request_test_body', parent_category: 1 } }
     }
     context 'ログイン後' do
       before { login_user(me, 'password', login_path) }
       it 'createが成功する' do
-        expect{ post books_path, params: params }.to change{ Book.count }.by(1)
+        expect { post books_path, params: params }.to change { Book.count }.by(1)
         expect(response).to have_http_status 302
         expect(response).to redirect_to books_path
       end
     end
     context 'ログイン前' do
       it 'アクセス制限される' do
-        expect{ post books_path, params: params }.to change{ Book.count }.by(0)
+        expect { post books_path, params: params }.to change { Book.count }.by(0)
         expect(response).to have_http_status 302
         expect(response).to redirect_to login_path(return: true)
       end
@@ -88,7 +88,8 @@ RSpec.describe 'Books', type: :request do
       end
       context '他人の資産の場合' do
         it '他ユーザーにはアクセスできない' do
-          expect{ get edit_book_path(book) }.to raise_error(ActiveRecord::RecordNotFound)
+          get edit_book_path(book)
+          expect(response).to have_http_status 404
         end
       end
     end
@@ -103,29 +104,27 @@ RSpec.describe 'Books', type: :request do
 
   describe 'PATCH /update' do
     let(:params) {
-      { book: { body: 'request_test_body' } } 
+      { book: { body: 'request_test_body' } }
     }
     context 'ログイン後' do
       before { login_user(me, 'password', login_path) }
       context '自分の資産の場合' do
         it 'upfateが成功する' do
-          expect{ patch book_path(book_by_me), params: params }.to change{ Book.find(book_by_me.id).body }.to('request_test_body')
+          expect { patch book_path(book_by_me), params: params }.to change { Book.find(book_by_me.id).body }.to('request_test_body')
           expect(response).to have_http_status 302
           expect(response).to redirect_to book_path(book_by_me)
         end
       end
       context '他人の資産の場合' do
         it '他ユーザーにはアクセスできない' do
-          expect {
-            patch book_path(book) 
-          } .to raise_error(ActiveRecord::RecordNotFound)
-            .and not_change{ Book.find(book_by_me.id).body }
+          expect { patch book_path(book), params: params }.to not_change { Book.find(book.id).body }
+          expect(response).to have_http_status 404
         end
       end
     end
     context 'ログイン前' do
       it 'アクセス制限される' do
-        expect{ patch book_path(book_by_me), params: params }.not_to change{ Book.find(book_by_me.id).body }
+        expect { patch book_path(book_by_me), params: params }.not_to change { Book.find(book_by_me.id).body }
         expect(response).to have_http_status 302
         expect(response).to redirect_to login_path(return: true)
       end
@@ -137,23 +136,21 @@ RSpec.describe 'Books', type: :request do
       before { login_user(me, 'password', login_path) }
       context '自分の資産の場合' do
         it 'destroyが成功する' do
-          expect{ delete book_path(book_by_me) }.to change{ Book.count }.by(-1)
+          expect { delete book_path(book_by_me) }.to change { Book.count }.by(-1)
           expect(response).to have_http_status 302
           expect(response).to redirect_to books_path
         end
       end
       context '他人の資産の場合' do
         it '他ユーザーにはアクセスできない' do
-          expect {
-            delete book_path(book) 
-          } .to raise_error(ActiveRecord::RecordNotFound)
-            .and change{ Book.count }.by(0)
+          expect { delete book_path(book) }.to change { Book.count }.by(0)
+          expect(response).to have_http_status 404
         end
       end
     end
     context 'ログイン前' do
       it 'アクセス制限される' do
-        expect{ delete book_path(book_by_me) }.to change{ Book.count }.by(0)
+        expect { delete book_path(book_by_me) }.to change { Book.count }.by(0)
         expect(response).to have_http_status 302
         expect(response).to redirect_to login_path(return: true)
       end

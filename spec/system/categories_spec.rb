@@ -22,7 +22,7 @@ RSpec.describe 'Profiles', type: :system do
         ruby_book = create(:book, category: ruby)
         visit categories_path
         click_link 'Ruby'
-        expect(current_path).to eq category_path(ruby)
+        expect(page).to have_current_path category_path(ruby)
         expect(page).to have_content ruby_book.title
       end
     end
