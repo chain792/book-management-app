@@ -21,8 +21,8 @@ RSpec.describe 'Comments', type: :system do
 
       it 'コメントの編集ができる' do
         visit book_path(comment_by_me.book)
-        find('#comments-list .dropdown').click
-        click_link '編集する'
+        find('[data-controller="dropdown"] button').click
+        click_button '編集する'
         find('#comments-list textarea').set('コメントテスト編集')
         click_button '保存'
         expect(page).to have_content 'コメントテスト編集' 
@@ -32,8 +32,8 @@ RSpec.describe 'Comments', type: :system do
 
       it 'コメントの編集をキャンセルできる' do
         visit book_path(comment_by_me.book)
-        find('#comments-list .dropdown').click
-        click_link '編集する'
+        find('[data-controller="dropdown"] button').click
+        click_button '編集する'
         find('#comments-list textarea').set('コメントテスト編集')
         click_button 'キャンセル'
         expect(page).not_to have_content 'コメントテスト編集' 
@@ -44,7 +44,7 @@ RSpec.describe 'Comments', type: :system do
       it 'コメントの削除できる' do
         visit book_path(comment_by_me.book)
         body = comment_by_me.body
-        find('#comments-list .dropdown').click
+        find('[data-controller="dropdown"] button').click
         expect{
           click_link '削除'
           page.accept_confirm
@@ -56,12 +56,12 @@ RSpec.describe 'Comments', type: :system do
 
       it '自分が追加したコメントには歯車アイコンが表示される' do
         visit book_path(comment_by_me.book)
-        expect(page).to have_selector '#comments-list .dropdown'
+        expect(page).to have_selector '[data-controller="dropdown"] button'
       end
 
       it '他人が追加したコメントには歯車アイコンが表示されない' do
         visit book_path(comment.book)
-        expect(page).not_to have_selector '#comments-list .dropdown'
+        expect(page).not_to have_selector '[data-controller="dropdown"] button'
       end
     end
 
@@ -78,8 +78,8 @@ RSpec.describe 'Comments', type: :system do
 
       it '未入力な場合、コメントの編集ができない' do
         visit book_path(comment_by_me.book)
-        find('#comments-list .dropdown').click
-        click_link '編集する'
+        find('[data-controller="dropdown"] button').click
+        click_button '編集する'
         find('#comments-list textarea').set('')
         click_button '保存'
         expect(page).to have_content 'コメントを入力してください'

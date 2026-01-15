@@ -10,5 +10,5 @@ application.register("category-select", CategorySelectController)
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import CommentController from "./comment_controller"
+application.register("comment", CommentController)

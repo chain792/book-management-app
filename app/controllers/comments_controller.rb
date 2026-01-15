@@ -3,19 +3,30 @@ class CommentsController < ApplicationController
 
   def create
     @comment = current_user.comments.build(comment_params)
-    @comment.save
+    
+    if @comment.save
+      redirect_to book_path(@comment.book)
+    else
+      @book = @comment.book
+      @comments = @book.comments.includes(:user).order(:id)
+      render "books/show", status: :unprocessable_content
+    end
   end
 
   def update
     if @comment.update(comment_update_params)
-      render json: { comment: @comment }, status: :ok
+      redirect_to book_path(@comment.book), status: :see_other
     else
-      render json: { comment: @comment, errors: { messages: @comment.errors.full_messages } }, status: :bad_request
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to book_path(@comment.book) }
+      end
     end
   end
 
   def destroy
     @comment.destroy!
+    redirect_to book_path(@comment.book), status: :see_other
   end
 
   private

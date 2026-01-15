@@ -65,9 +65,7 @@ RSpec.describe 'Books', type: :system do
       it '本の削除ができる' do
         visit book_path(book_by_me)
         title = book_by_me.title
-        within '[data-controller="dropdown"]' do
-          find('button').click
-        end
+        find('[data-controller="dropdown"] button').click
         expect {
           click_link '削除'
           page.accept_confirm
@@ -79,12 +77,12 @@ RSpec.describe 'Books', type: :system do
 
       it '自分が追加した本には歯車アイコンが表示される' do
         visit book_path(book_by_me)
-        expect(page).to have_selector('[data-controller="dropdown"]')
+        expect(page).to have_selector('[data-controller="dropdown"] button')
       end
 
       it '他人が追加した本には歯車アイコンが表示されない' do
         visit book_path(book)
-        expect(page).not_to have_selector('[data-controller="dropdown"]')
+        expect(page).not_to have_selector('[data-controller="dropdown"] button')
       end
     end
 

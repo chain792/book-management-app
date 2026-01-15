@@ -1,0 +1,12 @@
+<%= form_with model: comment, id: dom_id(comment, :form), data: { action: "turbo:submit-end->comment#afterSubmit" } do |f| %>
+  <%= render 'shared/error_message', object: f.object %>
+  <%= f.text_area :body,
+    data: { "comment-target": "input" },
+    class: "mb-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+  <div class="flex gap-2">
+    <button type="button" data-action="comment#cancel" class="rounded-md bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300">
+      キャンセル
+    </button>
+    <%= f.submit '保存', class: "rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700 cursor-pointer" %>
+  </div>
+<% end %>
