@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: %i[index new create show following follower]
+  allow_unauthenticated_access only: %i[index new create show following follower]
   before_action :set_user, only: %i[show following follower]
 
   def index
@@ -14,11 +14,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      auto_login(@user)
-      redirect_back_or_to profile_path, success: t('.success')
+      start_new_session_for(@user)
+      redirect_to after_authentication_url, success: t('.success')
     else
       flash.now[:danger] = t('.fail')
-      render 'new'
+      render 'new', status: :unprocessable_content
     end
   end
 

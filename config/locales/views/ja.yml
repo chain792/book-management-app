@@ -16,7 +16,7 @@ ja:
     unspecified: '指定なし'
     review: 'レビュー'
     message:
-      require_login: 'ログインしてください'
+      require_authentication: 'ログインしてください'
       created: "%{item}を作成しました"
       not_created: "%{item}を作成できませんでした"
       updated: "%{item}を更新しました"
@@ -40,6 +40,16 @@ ja:
     follower:
       title: 'フォロワー一覧'
       no_result: 'フォローワーはいません。'
+  sessions:
+    new:
+      title: 'ログイン'
+      to_register_page: '登録ページへ'
+      password_forget: 'パスワードをお忘れの方はこちら'
+    create:
+      success: 'ログインしました'
+      fail: 'ログインに失敗しました'
+    destroy:
+      success: 'ログアウトしました'
   user_sessions:
     new:
       title: 'ログイン'

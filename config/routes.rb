@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root "books#index"
   resources :users, only: %i[index new create show] do
@@ -15,10 +17,10 @@ Rails.application.routes.draw do
   resources :likes, only: %i[create destroy]
   resources :relationships, only: %i[create destroy]
   resource :profile, only: %i[show edit update]
-  get "login", to: "user_sessions#new"
-  post "login", to: "user_sessions#create"
-  delete "logout", to: "user_sessions#destroy"
-  post "guest_login", to: "user_sessions#guest_login"
+  post "guest_login", to: "sessions#guest_login"
+  get "login", to: "sessions#new"
+  delete "logout", to: "sessions#destroy"
+
   get "/auth/:provider/callback" => "oauths#create"
   get "/auth/failure" => "oauths#failure"
   get "/terms" => "static_pages#terms"

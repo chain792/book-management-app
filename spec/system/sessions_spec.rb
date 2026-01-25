@@ -7,8 +7,8 @@ RSpec.describe 'UserSessions', type: :system do
     context '正常系' do
       it 'ログインができる' do
         visit login_path
-        fill_in 'メールアドレス', with: user.email
-        fill_in 'パスワード',	with: 'password'
+        fill_in 'email', with: user.email
+        fill_in 'password',	with: 'password'
         click_button 'ログイン'
         expect(page).to have_current_path profile_path
         expect(page).to have_content 'ログインしました'
@@ -18,8 +18,8 @@ RSpec.describe 'UserSessions', type: :system do
     context '異常系' do
       it '入力が不足している場合、ログインできない' do
         visit login_path
-        fill_in 'メールアドレス', with: user.email
-        fill_in 'パスワード',	with: ''
+        fill_in 'email', with: user.email
+        fill_in 'password',	with: ''
         click_button 'ログイン'
         expect(page).to have_current_path login_path
         expect(page).to have_content 'ログインに失敗しました'
