@@ -15,11 +15,11 @@ class BooksController < ApplicationController
   def create
     @book = current_user.books.build(book_params)
     if @book.save_with_author(authors_params[:authors])
-      redirect_to books_path, notice: t("defaults.message.created", item: t("defaults.review"))
+      redirect_to books_path, notice: "レビューを作成しました"
     else
       set_category
       set_volume_info
-      flash.now[:danger] = t("defaults.message.not_created", item: t("defaults.review"))
+      flash.now[:danger] = "レビューを作成できませんでした"
       render "new", status: :unprocessable_content
     end
   end
@@ -36,17 +36,17 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to book_path(@book), notice: t("defaults.message.updated", item: t("defaults.review")), status: :see_other
+      redirect_to book_path(@book), notice: "レビューを更新しました", status: :see_other
     else
       set_category
-      flash.now[:danger] = t("defaults.message.not_updated", item: t("defaults.review"))
+      flash.now[:danger] = "レビューを更新できませんでした"
       render "edit", status: :unprocessable_content
     end
   end
 
   def destroy
     @book.destroy!
-    redirect_to books_path, notice: t("defaults.message.deleted", item: t("defaults.review")), status: :see_other
+    redirect_to books_path, notice: "レビューを削除しました", status: :see_other
   end
 
   def search

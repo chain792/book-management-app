@@ -1,6 +1,6 @@
-<% content_for(:title, t('.title')) %>
+<% content_for(:title, 'ログイン') %>
 <div class="max-w-4xl mx-auto mt-6 px-4">
-  <h1 class="text-3xl font-bold mb-6 text-center"><%= t '.title' %></h1>
+  <h1 class="text-3xl font-bold mb-6 text-center">ログイン</h1>
 
   <div class="md:flex md:space-x-4">
     <!-- ログインフォーム -->
@@ -17,7 +17,7 @@
         </div>
 
         <div class="mb-4">
-          <%= f.submit t('defaults.login'), class: 'w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700' %>
+          <%= f.submit 'ログイン', class: 'w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700' %>
         </div>
       <% end %>
 
@@ -40,7 +40,7 @@
 
         <div>
           <p class="text-center text-sm mb-2">新しくアカウントを作成する</p>
-          <%= link_to t('.to_register_page'), new_user_path, class: 'w-full border border-blue-600 text-blue-600 py-2 rounded hover:bg-blue-50 block text-center' %>
+          <%= link_to '登録ページへ', new_user_path, class: 'w-full border border-blue-600 text-blue-600 py-2 rounded hover:bg-blue-50 block text-center' %>
         </div>
       </div>
     </div>

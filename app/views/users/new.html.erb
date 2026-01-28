@@ -1,8 +1,8 @@
-<% content_for(:title, t('.title')) %>
+<% content_for(:title, 'ユーザー登録') %>
 <div class="container mx-auto mt-3 px-3">
   <div class="flex justify-center">
     <div class="w-full md:w-10/12 lg:w-8/12">
-      <h1 class="mb-3 text-2xl font-bold"><%= t '.title' %></h1>
+      <h1 class="mb-3 text-2xl font-bold">ユーザー登録</h1>
       <div class="bg-white border rounded-xl p-6">
         <%= form_with model: @user do |f| %>
           <%= render 'shared/error_message', object: f.object %>
@@ -27,11 +27,11 @@
             <%= f.password_field :password_confirmation, class: 'w-full border rounded px-3 py-2', placeholder: '半角英数字4文字以上' %>
           </div>
 
-          <%= f.submit t('defaults.register'), class: 'bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded px-4 py-2' %>
+          <%= f.submit '登録', class: 'bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded px-4 py-2' %>
         <% end %>
 
         <div class="text-center mt-4">
-          <%= link_to t('.to_login_page'), login_path, class: 'text-blue-500 hover:underline' %>
+          <%= link_to 'ログインページへ', login_path, class: 'text-blue-500 hover:underline' %>
         </div>
       </div>
     </div>
