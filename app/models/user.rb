@@ -18,7 +18,7 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: :Relationship, foreign_key: :follower_id, dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :followed
 
-  validates :password, length: { minimum: 4 }, if: -> { new_record? || changes[:password_digest] }
+  validates :password, length: { minimum: 4 }, allow_nil: true, if: -> { new_record? || changes[:password_digest] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:password_digest] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:password_digest] }
   validates :email, presence: true, uniqueness: true

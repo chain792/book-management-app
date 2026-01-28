@@ -15,7 +15,7 @@ class BooksController < ApplicationController
   def create
     @book = current_user.books.build(book_params)
     if @book.save_with_author(authors_params[:authors])
-      redirect_to books_path, success: t("defaults.message.created", item: t("defaults.review"))
+      redirect_to books_path, notice: t("defaults.message.created", item: t("defaults.review"))
     else
       set_category
       set_volume_info
@@ -36,7 +36,7 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to book_path(@book), success: t("defaults.message.updated", item: t("defaults.review")), status: :see_other
+      redirect_to book_path(@book), notice: t("defaults.message.updated", item: t("defaults.review")), status: :see_other
     else
       set_category
       flash.now[:danger] = t("defaults.message.not_updated", item: t("defaults.review"))
@@ -46,7 +46,7 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy!
-    redirect_to books_path, success: t("defaults.message.deleted", item: t("defaults.review")), status: :see_other
+    redirect_to books_path, notice: t("defaults.message.deleted", item: t("defaults.review")), status: :see_other
   end
 
   def search

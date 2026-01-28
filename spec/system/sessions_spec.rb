@@ -19,7 +19,7 @@ RSpec.describe 'UserSessions', type: :system do
       it '入力が不足している場合、ログインできない' do
         visit login_path
         fill_in 'メールアドレス', with: user.email
-        fill_in 'パスワード',	with: ''
+        fill_in 'パスワード', with: ''
         click_button 'ログイン'
         expect(page).to have_current_path login_path
         expect(page).to have_content 'ログインに失敗しました'

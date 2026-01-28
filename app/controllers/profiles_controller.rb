@@ -9,10 +9,10 @@ class ProfilesController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to profile_path, success: t('defaults.message.updated', item: 'プロフィール'), status: :see_other
+      redirect_to profile_path, notice: t('defaults.message.updated', item: 'プロフィール'), status: :see_other
     else
-      flash.now[:danger] = t('defaults.message.not_updated', item: 'プロフィール')
-      render 'edit'
+      flash.now[:alert] = t('defaults.message.not_updated', item: 'プロフィール')
+      render 'edit', status: :unprocessable_content
     end
   end
 

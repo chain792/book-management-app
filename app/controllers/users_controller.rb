@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       start_new_session_for(@user)
-      redirect_to after_authentication_url, success: t('.success')
+      redirect_to after_authentication_url, notice: t('.success')
     else
       flash.now[:danger] = t('.fail')
       render 'new', status: :unprocessable_content

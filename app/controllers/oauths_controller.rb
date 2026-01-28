@@ -4,13 +4,13 @@ class OauthsController < ApplicationController
   def create
     user = User.find_or_create_from_auth_hash!(request.env['omniauth.auth'])
   rescue ActiveRecord::RecordInvalid
-    redirect_to root_path, danger: 'ログインに失敗しました。メールアドレスが設定されていないか、登録しているメールアドレスがすでに使用されています。'
+    redirect_to root_path, alert: 'ログインに失敗しました。メールアドレスが設定されていないか、登録しているメールアドレスがすでに使用されています。'
   else
     start_new_session_for(user)
-    redirect_to after_authentication_url, success: t('.success')
+    redirect_to after_authentication_url, notice: t('.success')
   end
 
   def failure
-    redirect_to root_path, danger: t('.fail')
+    redirect_to root_path, alert: t('.fail')
   end
 end
