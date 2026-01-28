@@ -21,7 +21,7 @@ RSpec.describe "Categories", type: :request do
 
   describe 'GET /show' do
     it 'ステータスコードが200で返る' do
-      get category_path(id: 1)
+      get category_path(id: Category.first.id)
       expect(response).to have_http_status 200
     end
   end
