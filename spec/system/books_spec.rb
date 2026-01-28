@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Books', type: :system do
+RSpec.describe 'Books', type: :system, vcr: true do
   describe '本のCRUD' do
     let(:me) { create(:user) }
     let(:book) { create(:book) }

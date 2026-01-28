@@ -29,7 +29,7 @@
     <div class="flex flex-col gap-4 lg:flex-row">
       <!-- 左：書影 -->
       <div class="w-full lg:w-1/4">
-        <%= image_tag @book.book_image.url,
+        <%= image_tag @book.book_image_url || "/sample.png",
           class: "h-auto max-w-full rounded border" %>
 
         <p class="mt-3 text-sm">
@@ -82,7 +82,7 @@
 
           <%= link_to user_path(@book.user),
             class: "flex items-center gap-3 hover:opacity-80" do %>
-            <%= image_tag @book.user.avatar.url,
+            <%= image_tag @book.user.avatar_url || "default_avatar.png",
               class: "h-12 w-12 rounded-full object-cover" %>
 
             <p class="text-base font-medium text-gray-900">

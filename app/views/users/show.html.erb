@@ -7,7 +7,7 @@
       <!-- ユーザ情報 -->
       <div class="bg-white border rounded-xl p-4 min-w-[300px]">
         <div class="flex items-center space-x-4">
-          <%= image_tag @user.avatar.url, size: '60x60', class: 'rounded-full' %>
+          <%= image_tag @user.avatar_url || "default_avatar.png", size: '60x60', class: 'rounded-full' %>
           <div class="flex flex-col md:flex-row md:items-center md:space-x-3">
             <h3 class="text-xl font-semibold"><%= @user.name %></h3>
             <%= render 'relationships/follow_button', user: @user %>

@@ -28,7 +28,7 @@ RSpec.describe 'Profiles', type: :system do
           expect(page).to have_content '名前編集'
           expect(page).to have_content '自己紹介編集'
           expect(page).to have_content 'edit@example.com'
-          expect(page).to have_selector "img[src$='test.jpeg']"
+          expect(page).to have_selector "img.rounded-full"
         end
 
         it 'ユーザーが投稿した本の一覧が表示される' do

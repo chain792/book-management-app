@@ -3,7 +3,7 @@
   <div class="inline-block">
     <div class="flex items-start">
       <div>
-        <%= image_tag comment.user.avatar.url,
+        <%= image_tag comment.user.avatar_url || "default_avatar.png",
           class: "mt-2 ml-1 mr-3 h-10 w-10 rounded-full object-cover" %>
       </div>
 
