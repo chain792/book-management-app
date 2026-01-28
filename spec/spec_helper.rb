@@ -95,7 +95,5 @@ config.filter_run_when_matching :focus
   Kernel.srand config.seed
 =end
   config.before :suite do
-    SeedFu.quiet = true
-    SeedFu.seed
   end
 end
