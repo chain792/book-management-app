@@ -1,4 +1,4 @@
-<% content_for(:title, t('.title')) %>
+<% content_for(:title, '本検索') %>
 
 <div class="mx-auto max-w-6xl px-4 pt-3">
   <!-- 検索フォーム -->
@@ -20,7 +20,7 @@
           </p>
         </div>
 
-        <%= f.submit t('defaults.search'),
+        <%= f.submit '検索',
           class: "rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700" %>
       <% end %>
     </div>
