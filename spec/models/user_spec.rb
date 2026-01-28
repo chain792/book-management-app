@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
     it "パスワードがない場合、無効" do
       user = build(:user, password: nil)
       user.valid?
-      expect(user.errors[:password]).to eq ["は4文字以上で入力してください"]
+      expect(user.errors[:password]).to eq ["を入力してください"]
     end
 
     it "パスワードが4文字より小さい場合、無効" do

@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-  authenticates_with_sorcery!
+
   mount_uploader :avatar, AvatarUploader
+  normalizes :email, with: ->(e) { e.strip.downcase }
+
 
   has_many :books, dependent: :destroy
   has_many :comments, dependent: :destroy
@@ -9,13 +11,16 @@ class User < ApplicationRecord
   # フォローしている関係
   has_many :active_relationships, class_name: :Relationship, foreign_key: :followed_id, dependent: :destroy
   has_many :followings, through: :active_relationships, source: :follower
+  has_secure_password
+  has_many :sessions, dependent: :destroy
+
   # フォローされている関係
   has_many :passive_relationships, class_name: :Relationship, foreign_key: :follower_id, dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :followed
 
-  validates :password, length: { minimum: 4 }, if: -> { new_record? || changes[:crypted_password] }
-  validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
-  validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
+  validates :password, length: { minimum: 4 }, allow_nil: true, if: -> { new_record? || changes[:password_digest] }
+  validates :password, confirmation: true, if: -> { new_record? || changes[:password_digest] }
+  validates :password_confirmation, presence: true, if: -> { new_record? || changes[:password_digest] }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, length: { maximum: 16 }
   validates :introduction, length: { maximum: 1000  }

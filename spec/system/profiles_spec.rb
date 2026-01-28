@@ -22,7 +22,7 @@ RSpec.describe 'Profiles', type: :system do
           fill_in 'メールアドレス', with: 'edit@example.com'
           file_path = Rails.root.join('spec', 'fixtures', 'test.jpeg')
           attach_file('user[avatar]', file_path)
-          click_button '更新する'
+          click_button '更新'
           expect(page).to have_current_path profile_path
           expect(page).to have_content 'プロフィールを更新しました'
           expect(page).to have_content '名前編集'
@@ -47,10 +47,10 @@ RSpec.describe 'Profiles', type: :system do
           fill_in '自己紹介', with: '自己紹介編集'
           file_path = Rails.root.join('spec', 'fixtures', 'test.jpeg')
           attach_file('user[avatar]', file_path)
-          click_button '更新する'
-          expect(page).to have_current_path profile_path
+          click_button '更新'
           expect(page).to have_content 'プロフィールを更新できませんでした'
           expect(page).to have_content '名前を入力してください' 
+          expect(page).to have_current_path edit_profile_path, ignore_query: true
         end
       end
     end

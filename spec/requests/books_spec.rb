@@ -14,7 +14,7 @@ RSpec.describe 'Books', type: :request do
 
   describe 'GET /search' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       it 'ステータスコードが200で返る' do
         get search_books_path
         expect(response).to have_http_status 200
@@ -24,14 +24,14 @@ RSpec.describe 'Books', type: :request do
       it 'アクセス制限される' do
         get search_books_path
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
 
   describe 'GET /new' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       # クエリパラメタが必要なためテストを省くことにする
       xit 'ステータスコードが200で返る' do
         get new_book_path
@@ -42,7 +42,7 @@ RSpec.describe 'Books', type: :request do
       it 'アクセス制限される' do
         get new_book_path
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe 'Books', type: :request do
       { book: { title: 'request_test_title', body: 'request_test_body', parent_category: 1 } }
     }
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       it 'createが成功する' do
         expect { post books_path, params: params }.to change { Book.count }.by(1)
         expect(response).to have_http_status 302
@@ -63,7 +63,7 @@ RSpec.describe 'Books', type: :request do
       it 'アクセス制限される' do
         expect { post books_path, params: params }.to change { Book.count }.by(0)
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
@@ -79,7 +79,7 @@ RSpec.describe 'Books', type: :request do
 
   describe 'GET /edit' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       context '自分の資産の場合' do
         it 'ステータスコードが200で返る' do
           get edit_book_path(book_by_me)
@@ -97,7 +97,7 @@ RSpec.describe 'Books', type: :request do
       it 'アクセス制限される' do
         get edit_book_path(book_by_me)
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
@@ -107,11 +107,11 @@ RSpec.describe 'Books', type: :request do
       { book: { body: 'request_test_body' } }
     }
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       context '自分の資産の場合' do
         it 'upfateが成功する' do
           expect { patch book_path(book_by_me), params: params }.to change { Book.find(book_by_me.id).body }.to('request_test_body')
-          expect(response).to have_http_status 302
+          expect(response).to have_http_status :see_other # 303
           expect(response).to redirect_to book_path(book_by_me)
         end
       end
@@ -126,18 +126,18 @@ RSpec.describe 'Books', type: :request do
       it 'アクセス制限される' do
         expect { patch book_path(book_by_me), params: params }.not_to change { Book.find(book_by_me.id).body }
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
 
   describe 'DELETE /destroy' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       context '自分の資産の場合' do
         it 'destroyが成功する' do
           expect { delete book_path(book_by_me) }.to change { Book.count }.by(-1)
-          expect(response).to have_http_status 302
+          expect(response).to have_http_status :see_other # 303
           expect(response).to redirect_to books_path
         end
       end
@@ -152,7 +152,7 @@ RSpec.describe 'Books', type: :request do
       it 'アクセス制限される' do
         expect { delete book_path(book_by_me) }.to change { Book.count }.by(0)
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end

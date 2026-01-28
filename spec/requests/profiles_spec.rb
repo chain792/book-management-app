@@ -5,7 +5,7 @@ RSpec.describe 'Profiles', type: :request do
 
   describe 'GET /show' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       it 'ステータスコードが200で返る' do
         get profile_path
         expect(response).to have_http_status 200
@@ -15,7 +15,7 @@ RSpec.describe 'Profiles', type: :request do
       it 'アクセス制限される' do
         get profile_path
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
@@ -23,7 +23,7 @@ RSpec.describe 'Profiles', type: :request do
 
   describe 'GET /edit' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       it 'ステータスコードが200で返る' do
         get edit_profile_path
         expect(response).to have_http_status 200
@@ -33,7 +33,7 @@ RSpec.describe 'Profiles', type: :request do
       it 'アクセス制限される' do
         get edit_profile_path
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
@@ -43,10 +43,10 @@ RSpec.describe 'Profiles', type: :request do
       { user: { name: 'request_test' } } 
     }
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       it 'upfateが成功する' do
         expect{ patch profile_path, params: params }.to change{ User.find(me.id).name }.to('request_test')
-        expect(response).to have_http_status 302
+        expect(response).to have_http_status :see_other
         expect(response).to redirect_to profile_path
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe 'Profiles', type: :request do
       it 'アクセス制限される' do
         expect{ patch profile_path, params: params }.not_to change{ User.find(me.id).name }
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end

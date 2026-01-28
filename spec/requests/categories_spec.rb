@@ -4,7 +4,7 @@ RSpec.describe "Categories", type: :request do
   let!(:me) { create(:user) }
   describe 'GET /index' do
     context 'ログイン後' do
-      before { login_user(me, 'password', login_path) }
+      before { login_user(me, 'password') }
       it 'ステータスコードが200で返る' do
         get categories_path
         expect(response).to have_http_status 200
@@ -14,7 +14,7 @@ RSpec.describe "Categories", type: :request do
       it 'アクセス制限される' do
         get categories_path
         expect(response).to have_http_status 302
-        expect(response).to redirect_to login_path(return: true)
+        expect(response).to redirect_to login_path
       end
     end
   end
