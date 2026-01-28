@@ -5,8 +5,6 @@ module Authentication
     before_action :require_authentication
     helper_method :authenticated?
     helper_method :current_user
-    alias_method :logged_in?, :authenticated?
-    helper_method :logged_in?
   end
 
   class_methods do
@@ -34,7 +32,7 @@ module Authentication
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
-      redirect_to new_session_path
+      redirect_to login_path, warning: "ログインしてください"
     end
 
     def after_authentication_url

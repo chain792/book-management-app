@@ -10,23 +10,23 @@ RSpec.describe 'UserSessions', type: :request do
     end
   end
 
-  describe 'POST /crete' do
+  describe 'POST /create' do
     let(:params) {
       { email: user.email, password: 'password' }
     }
 
     it 'ログインに成功すること' do
-      post login_path, params: params
+      post session_path, params: params
       expect(response).to have_http_status 302
       expect(response).to redirect_to profile_path
     end
   end
 
   describe 'DELETE /destroy' do
-    before { login_user(user, 'password', login_path) }
+    before { login_user(user, 'password') }
     it 'ログアウトに成功すること' do
       delete logout_path
-      expect(response).to have_http_status 302
+      expect(response).to have_http_status :see_other
       expect(response).to redirect_to root_path
     end
   end

@@ -7,10 +7,10 @@ RSpec.describe 'Users', type: :system do
     context '正常系' do
       it 'ユーザーの新規作成ができる' do
         visit new_user_path
-        fill_in 'user_name', with: 'test01'
-        find('#user_email').set('test01@example.com')
-        fill_in 'user_password', with: 'password'
-        fill_in 'user_password_confirmation', with: 'password'
+        fill_in '名前', with: 'test01'
+        fill_in 'メールアドレス', with: 'test01@example.com'
+        fill_in 'パスワード', with: 'password'
+        fill_in 'パスワード（確認）', with: 'password'
         click_button '登録'
         expect(page).to have_content 'ユーザー登録が完了しました'
         expect(page).to have_current_path profile_path
@@ -21,10 +21,10 @@ RSpec.describe 'Users', type: :system do
     context '異常系' do
       it 'メールアドレスが未入力な場合、ユーザーの新規作成ができない' do
         visit new_user_path
-        fill_in 'user_name', with: 'test01'
-        fill_in 'user_email', with: ''
-        fill_in 'user_password', with: 'password'
-        fill_in 'user_password_confirmation', with: 'password'
+        fill_in '名前', with: 'test01'
+        fill_in 'メールアドレス', with: ''
+        fill_in 'パスワード', with: 'password'
+        fill_in 'パスワード（確認）', with: 'password'
         expect { click_button '登録' }.to change { User.count }.by(0)
         expect(page).to have_content 'ユーザー登録に失敗しました'
         expect(page).to have_content 'メールアドレスを入力してください'
@@ -32,10 +32,10 @@ RSpec.describe 'Users', type: :system do
 
       it 'メールアドレスが登録済な場合、ユーザーの新規作成ができない' do
         visit new_user_path
-        fill_in 'user_name', with: 'test01'
+        fill_in '名前', with: 'test01'
         fill_in 'user_email', with: existed_user.email
-        fill_in 'user_password', with: 'password'
-        fill_in 'user_password_confirmation', with: 'password'
+        fill_in 'パスワード', with: 'password'
+        fill_in 'パスワード（確認）', with: 'password'
         expect { click_button '登録' }.to change { User.count }.by(0)
         expect(page).to have_content 'ユーザー登録に失敗しました'
         expect(page).to have_content 'メールアドレスはすでに存在します'

@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to profile_path, success: t('defaults.message.updated', item: 'プロフィール')
+      redirect_to profile_path, success: t('defaults.message.updated', item: 'プロフィール'), status: :see_other
     else
       flash.now[:danger] = t('defaults.message.not_updated', item: 'プロフィール')
       render 'edit'
