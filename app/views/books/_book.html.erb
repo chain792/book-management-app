@@ -3,7 +3,7 @@
   <div class="flex h-[220px]">
     <!-- 画像 -->
     <div class="w-5/12">
-      <%= image_tag book.book_image.url,
+      <%= image_tag book.book_image_url || "/sample.png",
         class: "ml-2 mt-2 h-auto max-w-full rounded border" %>
     </div>
 
@@ -28,7 +28,7 @@
   <!-- ユーザー情報 -->
   <div class="flex items-start border-t border-gray-200 pt-2">
     <div>
-      <%= image_tag book.user.avatar.url,
+      <%= image_tag book.user.avatar_url || "default_avatar.png",
         class: "ml-2 mt-1 mr-3 h-10 w-10 rounded-full object-cover" %>
     </div>
 

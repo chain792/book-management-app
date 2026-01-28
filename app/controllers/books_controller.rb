@@ -19,7 +19,7 @@ class BooksController < ApplicationController
     else
       set_category
       set_volume_info
-      flash.now[:danger] = "レビューを作成できませんでした"
+      flash.now[:alert] = "レビューを作成できませんでした"
       render "new", status: :unprocessable_content
     end
   end
@@ -39,7 +39,7 @@ class BooksController < ApplicationController
       redirect_to book_path(@book), notice: "レビューを更新しました", status: :see_other
     else
       set_category
-      flash.now[:danger] = "レビューを更新できませんでした"
+      flash.now[:alert] = "レビューを更新できませんでした"
       render "edit", status: :unprocessable_content
     end
   end
@@ -53,7 +53,7 @@ class BooksController < ApplicationController
     if params[:search].nil?
       nil
     elsif params[:search].blank?
-      flash.now[:danger] = "検索キーワードが入力されていません"
+      flash.now[:alert] = "検索キーワードが入力されていません"
       nil
     else
       url = "https://www.googleapis.com/books/v1/volumes"
@@ -68,7 +68,7 @@ class BooksController < ApplicationController
   def book_params
     case action_name
     when "create"
-      params.require(:book).permit(:title, :body, :remote_book_image_url, :info_link, :published_date).merge(category_id: category_id)
+      params.require(:book).permit(:title, :body, :book_image_remote_url, :info_link, :published_date).merge(category_id: category_id)
     when "update"
       params.require(:book).permit(:body)
     end
@@ -91,7 +91,7 @@ class BooksController < ApplicationController
     @volume_info = {}
     @volume_info[:title] = params[:book][:title]
     @volume_info[:authors] = params[:book][:authors]
-    @volume_info[:bookImage] = params[:book][:remote_book_image_url]
+    @volume_info[:bookImage] = params[:book][:book_image_remote_url]
     @volume_info[:infoLink] = params[:book][:info_link]
     @volume_info[:publishedDate] = params[:book][:published_date]
   end

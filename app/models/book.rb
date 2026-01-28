@@ -1,5 +1,5 @@
 class Book < ApplicationRecord
-  mount_uploader :book_image, BookImageUploader
+  include ImageUploader::Attachment(:book_image)
 
   belongs_to :user
   belongs_to :category

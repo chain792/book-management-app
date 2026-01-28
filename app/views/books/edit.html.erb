@@ -10,7 +10,7 @@
     <div class="flex">
       <!-- 画像 -->
       <div class="w-5/12">
-        <%= image_tag @book.book_image.url,
+        <%= image_tag @book.book_image_url || "/sample.png",
           class: "h-auto max-w-full rounded border" %>
       </div>
 

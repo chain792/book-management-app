@@ -23,7 +23,7 @@
       <!-- ドロップダウン -->
       <div class="relative">
         <button id="user-menu-button" class="flex items-center focus:outline-none">
-          <%= image_tag current_user.avatar.url, size: '40x40', class: 'rounded-full mr-2' %>
+          <%= image_tag current_user.avatar_url || "default_avatar.png", size: '40x40', class: 'rounded-full mr-2' %>
         </button>
         <!-- ドロップダウンメニュー -->
         <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">

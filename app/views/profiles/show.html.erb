@@ -7,7 +7,7 @@
     <!-- ユーザー情報 -->
     <div class="bg-white border rounded-lg p-4 min-w-[300px]">
       <div class="md:flex">
-        <%= image_tag current_user.avatar.url,
+        <%= image_tag current_user.avatar_url || "default_avatar.png",
               size: '60x60',
               class: 'm-3 md:mr-5 rounded-full object-cover' %>
 
