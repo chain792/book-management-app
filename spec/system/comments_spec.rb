@@ -19,7 +19,7 @@ RSpec.describe 'Comments', type: :system do
         expect(page).to have_current_path book_path(book)
       end
 
-      it 'コメントの編集ができる' do
+      it 'コメントの編集ができる', js: true do
         visit book_path(comment_by_me.book)
         find('[data-controller="dropdown"] button').click
         click_button '編集する'
@@ -30,7 +30,7 @@ RSpec.describe 'Comments', type: :system do
         expect(page).to have_current_path book_path(comment_by_me.book)
       end
 
-      it 'コメントの編集をキャンセルできる' do
+      it 'コメントの編集をキャンセルできる', js: true do
         visit book_path(comment_by_me.book)
         find('[data-controller="dropdown"] button').click
         click_button '編集する'
@@ -41,7 +41,7 @@ RSpec.describe 'Comments', type: :system do
         expect(page).to have_current_path book_path(comment_by_me.book)
       end
 
-      it 'コメントの削除できる' do
+      it 'コメントの削除できる', js: true do
         visit book_path(comment_by_me.book)
         body = comment_by_me.body
         find('[data-controller="dropdown"] button').click
@@ -66,7 +66,7 @@ RSpec.describe 'Comments', type: :system do
     end
 
     context '異常系' do
-      it '未入力な場合、コメントを新規追加できない' do
+      it '未入力な場合、コメントを新規追加できない', js: true do
         visit book_path(book)
         fill_in 'comment[body]', with: ''
         expect{
@@ -76,7 +76,7 @@ RSpec.describe 'Comments', type: :system do
         expect(page).to have_current_path book_path(book)
       end
 
-      it '未入力な場合、コメントの編集ができない' do
+      it '未入力な場合、コメントの編集ができない', js: true do
         visit book_path(comment_by_me.book)
         find('[data-controller="dropdown"] button').click
         click_button '編集する'

@@ -9,7 +9,7 @@ RSpec.describe 'Likes', type: :system do
     before { login_as(me) }
 
     context '正常系' do
-      it 'いいねできる' do
+      it 'いいねできる', js: true do
         visit book_path(book)
 
         expect(page).to have_selector('[data-testid="like-button"]')
@@ -22,7 +22,7 @@ RSpec.describe 'Likes', type: :system do
         expect(page).to have_current_path book_path(book)
       end
 
-      it 'いいね解除できる' do
+      it 'いいね解除できる', js: true do
         book = like_by_me.book
 
         visit book_path(book)

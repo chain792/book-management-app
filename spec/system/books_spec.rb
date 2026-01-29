@@ -9,7 +9,7 @@ RSpec.describe 'Books', type: :system, vcr: true do
     before { login_as(me) }
 
     context '正常系' do
-      it '検索した本を新規追加できる' do
+      it '検索した本を新規追加できる', js: true do
         # 検索画面から本を検索
         visit search_books_path
         expect(page).to have_current_path search_books_path
@@ -53,7 +53,7 @@ RSpec.describe 'Books', type: :system, vcr: true do
         expect(page).to have_link '詳細を見る', href: book.info_link
       end
 
-      it '本の編集ができる' do
+      it '本の編集ができる', js: true do
         visit edit_book_path(book_by_me)
         fill_in 'レビュー', with: 'レビュー編集'
         click_button '更新する'
@@ -62,7 +62,7 @@ RSpec.describe 'Books', type: :system, vcr: true do
         expect(page).to have_content 'レビュー編集'
       end
 
-      it '本の削除ができる' do
+      it '本の削除ができる', js: true do
         visit book_path(book_by_me)
         title = book_by_me.title
         find('[data-controller="dropdown"] button').click
@@ -95,7 +95,7 @@ RSpec.describe 'Books', type: :system, vcr: true do
         expect(page).not_to have_css '.card-link'
       end
 
-      it '入力が不足している場合、検索した本を新規追加できない' do
+      it '入力が不足している場合、検索した本を新規追加できない', js: true do
         visit search_books_path
         fill_in 'search', with: 'apple'
         click_button '検索'
@@ -110,7 +110,7 @@ RSpec.describe 'Books', type: :system, vcr: true do
         expect(page).to have_content 'レビューは5文字以上で入力してください'
       end
 
-      it '入力が不足している場合、本の編集ができない' do
+      it '入力が不足している場合、本の編集ができない', js: true do
         visit edit_book_path(book_by_me)
         fill_in 'レビュー', with: ''
         click_button '更新する'

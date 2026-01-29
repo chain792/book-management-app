@@ -12,7 +12,7 @@ RSpec.describe 'Relationships', type: :system do
     end
 
     context '正常系' do
-      it 'フォローできる' do
+      it 'フォローできる', js: true do
         visit user_path(others)
         expect{
           click_button 'フォロー'
@@ -23,7 +23,7 @@ RSpec.describe 'Relationships', type: :system do
         expect(page).to have_current_path user_path(others)
       end
 
-      it 'フォロー解除できる' do
+      it 'フォロー解除できる', js: true do
         visit user_path(my_following_user)
         expect{
           click_button 'フォロー中'
