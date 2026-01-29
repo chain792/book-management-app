@@ -2,7 +2,7 @@
 
 <div class="mx-auto mt-3 max-w-3xl px-4">
   <h1 class="mb-3 text-2xl font-bold text-gray-900">
-    <%= t('.title') %>
+    レビュー編集
   </h1>
 
   <!-- 本情報カード -->
@@ -10,7 +10,7 @@
     <div class="flex">
       <!-- 画像 -->
       <div class="w-5/12">
-        <%= image_tag @book.book_image.url,
+        <%= image_tag @book.book_image_url || "/sample.png",
           class: "h-auto max-w-full rounded border" %>
       </div>
 

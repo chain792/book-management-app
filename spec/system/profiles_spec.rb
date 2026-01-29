@@ -15,7 +15,7 @@ RSpec.describe 'Profiles', type: :system do
           expect(page).to have_content date(user.created_at)
         end
 
-        it 'プロフィールの編集ができる' do
+        it 'プロフィールの編集ができる', js: true do
           visit edit_profile_path
           fill_in '名前', with: '名前編集'
           fill_in '自己紹介', with: '自己紹介編集'
@@ -28,7 +28,7 @@ RSpec.describe 'Profiles', type: :system do
           expect(page).to have_content '名前編集'
           expect(page).to have_content '自己紹介編集'
           expect(page).to have_content 'edit@example.com'
-          expect(page).to have_selector "img[src$='test.jpeg']"
+          expect(page).to have_selector "img.rounded-full"
         end
 
         it 'ユーザーが投稿した本の一覧が表示される' do
@@ -41,7 +41,7 @@ RSpec.describe 'Profiles', type: :system do
       end
 
       context '異常系' do
-        it '入力が不足している場合、プロフィールの編集ができない' do
+        it '入力が不足している場合、プロフィールの編集ができない', js: true do
           visit edit_profile_path
           fill_in '名前', with: ''
           fill_in '自己紹介', with: '自己紹介編集'

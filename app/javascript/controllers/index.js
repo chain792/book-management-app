@@ -12,3 +12,6 @@ application.register("dropdown", DropdownController)
 
 import CommentController from "./comment_controller"
 application.register("comment", CommentController)
+
+import PreviewController from "./preview_controller"
+application.register("preview", PreviewController)

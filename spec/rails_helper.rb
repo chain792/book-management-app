@@ -68,4 +68,8 @@ RSpec.configure do |config|
   config.include ApplicationHelper
   config.include LoginMacros
 
+  # System Spec 実行前に Seed を読み込む
+  config.before(:suite) do
+    Rails.application.load_seed
+  end
 end

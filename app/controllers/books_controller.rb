@@ -15,11 +15,11 @@ class BooksController < ApplicationController
   def create
     @book = current_user.books.build(book_params)
     if @book.save_with_author(authors_params[:authors])
-      redirect_to books_path, notice: t("defaults.message.created", item: t("defaults.review"))
+      redirect_to books_path, notice: "レビューを作成しました"
     else
       set_category
       set_volume_info
-      flash.now[:danger] = t("defaults.message.not_created", item: t("defaults.review"))
+      flash.now[:alert] = "レビューを作成できませんでした"
       render "new", status: :unprocessable_content
     end
   end
@@ -36,24 +36,24 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to book_path(@book), notice: t("defaults.message.updated", item: t("defaults.review")), status: :see_other
+      redirect_to book_path(@book), notice: "レビューを更新しました", status: :see_other
     else
       set_category
-      flash.now[:danger] = t("defaults.message.not_updated", item: t("defaults.review"))
+      flash.now[:alert] = "レビューを更新できませんでした"
       render "edit", status: :unprocessable_content
     end
   end
 
   def destroy
     @book.destroy!
-    redirect_to books_path, notice: t("defaults.message.deleted", item: t("defaults.review")), status: :see_other
+    redirect_to books_path, notice: "レビューを削除しました", status: :see_other
   end
 
   def search
     if params[:search].nil?
       nil
     elsif params[:search].blank?
-      flash.now[:danger] = "検索キーワードが入力されていません"
+      flash.now[:alert] = "検索キーワードが入力されていません"
       nil
     else
       url = "https://www.googleapis.com/books/v1/volumes"
@@ -68,7 +68,7 @@ class BooksController < ApplicationController
   def book_params
     case action_name
     when "create"
-      params.require(:book).permit(:title, :body, :remote_book_image_url, :info_link, :published_date).merge(category_id: category_id)
+      params.require(:book).permit(:title, :body, :book_image_remote_url, :info_link, :published_date).merge(category_id: category_id)
     when "update"
       params.require(:book).permit(:body)
     end
@@ -91,7 +91,7 @@ class BooksController < ApplicationController
     @volume_info = {}
     @volume_info[:title] = params[:book][:title]
     @volume_info[:authors] = params[:book][:authors]
-    @volume_info[:bookImage] = params[:book][:remote_book_image_url]
+    @volume_info[:bookImage] = params[:book][:book_image_remote_url]
     @volume_info[:infoLink] = params[:book][:info_link]
     @volume_info[:publishedDate] = params[:book][:published_date]
   end

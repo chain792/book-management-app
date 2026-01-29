@@ -1,8 +1,8 @@
-<% content_for(:title, t('.title')) %>
+<% content_for(:title, 'レビュー投稿') %>
 
 <div class="mx-auto mt-3 max-w-3xl px-4">
   <h1 class="mb-3 text-2xl font-bold text-gray-900">
-    <%= t('.title') %>
+    レビュー投稿
   </h1>
 
   <!-- 本情報カード -->
@@ -76,14 +76,14 @@
     <%= f.hidden_field :title, value: @volume_info[:title] %>
     <%= f.hidden_field :published_date, value: @volume_info[:publishedDate] %>
     <%= f.hidden_field :info_link, value: @volume_info[:infoLink] %>
-    <%= f.hidden_field :remote_book_image_url, value: @volume_info[:bookImage] %>
+    <%= f.hidden_field :book_image_remote_url, value: @volume_info[:bookImage] %>
 
     <% @volume_info[:authors]&.each do |author| %>
       <%= hidden_field_tag 'book[authors][]', author %>
     <% end %>
 
     <!-- submit -->
-    <%= f.submit id: "submit-button",
+    <%= f.submit '登録する', id: "submit-button",
         disabled: true,
         class: "bg-gray-400 text-white px-4 py-2 rounded",
         data: { category_select_target: "submitButton" } %>

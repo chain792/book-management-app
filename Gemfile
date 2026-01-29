@@ -44,14 +44,13 @@ gem "dotenv-rails"
 gem "faraday"
 gem "rails-i18n", "~> 8.0"
 
-gem "carrierwave", "~> 3.0"
+gem "shrine"
+gem "aws-sdk-s3"
 gem "mini_magick"
-gem "fog-aws"
 gem "ancestry"
 gem "omniauth"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-twitter"
-gem "seed-fu"
 gem "sitemap_generator"
 gem "meta-tags"
 
@@ -84,5 +83,7 @@ group :test do
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers
   gem "webdrivers"
+  gem "vcr"
+  gem "webmock"
   gem "simplecov", require: false
 end

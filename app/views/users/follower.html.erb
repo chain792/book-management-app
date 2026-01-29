@@ -1,4 +1,4 @@
-<% content_for(:title, t('.title')) %>
+<% content_for(:title, 'フォロワー一覧') %>
 <div class="container mx-auto mt-3 px-3">
   <div class="flex justify-center">
     <div class="w-full md:w-10/12 lg:w-8/12">
@@ -9,7 +9,7 @@
       <% if @users.present? %>
         <%= render @users %>
       <% else %>
-        <p class="text-gray-500 mt-3"><%= t('.no_result') %></p>
+        <p class="text-gray-500 mt-3">フォローワーはいません。</p>
       <% end %>
     </div>
   </div>

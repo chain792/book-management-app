@@ -29,12 +29,11 @@ RSpec.describe 'Books', type: :request do
     end
   end
 
-  describe 'GET /new' do
+  describe 'GET /new', vcr: true do
     context 'ログイン後' do
       before { login_user(me, 'password') }
-      # クエリパラメタが必要なためテストを省くことにする
-      xit 'ステータスコードが200で返る' do
-        get new_book_path
+      it 'ステータスコードが200で返る' do
+        get new_book_path, params: { volumeInfo: { title: 'test', authors: ['author'] } }
         expect(response).to have_http_status 200
       end
     end
@@ -49,7 +48,7 @@ RSpec.describe 'Books', type: :request do
 
   describe 'POST /create' do
     let(:params) {
-      { book: { title: 'request_test_title', body: 'request_test_body', parent_category: 1 } }
+      { book: { title: 'request_test_title', body: 'request_test_body', parent_category: Category.first.id } }
     }
     context 'ログイン後' do
       before { login_user(me, 'password') }

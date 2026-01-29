@@ -1,7 +1,7 @@
-<% content_for(:title, t('.title')) %>
+<% content_for(:title, 'プロフィール編集') %>
 <div class="mt-3">
   <div class="mx-auto max-w-3xl px-4">
-    <h1 class="mb-3 text-2xl font-semibold"><%= t('.title') %></h1>
+    <h1 class="mb-3 text-2xl font-semibold">プロフィール編集</h1>
 
     <div class="bg-white border rounded-lg p-6 shadow-sm">
       <%= form_with model: @user, url: profile_path, class: "space-y-5" do |f| %>
@@ -21,19 +21,24 @@
                 class: 'w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-200' %>
         </div>
 
-        <div>
+        <div data-controller="preview">
           <%= f.label :avatar, class: 'block text-sm font-semibold text-gray-700 mb-2' %>
           <div class="flex items-center gap-4">
-            <%= image_tag @user.avatar.url,
+            <%= image_tag @user.avatar_url || "default_avatar.png",
+                  data: { preview_target: "preview" },
                   id: 'preview',
                   class: 'h-20 w-20 rounded-full object-cover',
                   size: '80x80' %>
             <div>
+              <%= f.hidden_field :avatar, value: f.object.cached_avatar_data %>
               <%= f.file_field :avatar,
                     id: 'file-field',
                     accept: 'image/*',
+                    data: {
+                      preview_target: "input",
+                      action: "change->preview#preview"
+                    },
                     class: 'rounded-md border border-gray-300 px-2 py-1 text-sm' %>
-              <%= f.hidden_field :avatar_cache %>
             </div>
           </div>
         </div>
@@ -46,7 +51,7 @@
         </div>
 
         <div>
-          <%= f.submit t('defaults.update'),
+          <%= f.submit '更新',
                 class: 'rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300' %>
         </div>
       <% end %>

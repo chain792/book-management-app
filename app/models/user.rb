@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 
-  mount_uploader :avatar, AvatarUploader
+  include ImageUploader::Attachment(:avatar)
   normalizes :email, with: ->(e) { e.strip.downcase }
 
 
