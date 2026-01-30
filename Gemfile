@@ -91,4 +91,4 @@ end
 # sorbet
 gem "sorbet", group: :development
 gem "sorbet-runtime"
-gem "tapioca", "~> 0.17.10", require: false, group: [ :development, :test ]
+gem "tapioca", require: false, group: [ :development, :test ]

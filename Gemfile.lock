@@ -584,7 +584,7 @@ DEPENDENCIES
   sorbet
   sorbet-runtime
   stimulus-rails
-  tapioca (~> 0.17.10)
+  tapioca
   thruster
   turbo-rails
   tzinfo-data
