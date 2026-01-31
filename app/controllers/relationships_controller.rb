@@ -1,3 +1,4 @@
+# typed: true
 class RelationshipsController < ApplicationController
   def create
     @user = User.find(params[:follower_id])

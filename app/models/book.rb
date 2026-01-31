@@ -1,5 +1,8 @@
+# typed: true
+# typed: true
+
 class Book < ApplicationRecord
-  include ImageUploader::Attachment(:book_image)
+  include BookAttachments
 
   belongs_to :user
   belongs_to :category
@@ -18,7 +21,7 @@ class Book < ApplicationRecord
       self.authors = authors.uniq.reject(&:blank?).map { |name| Author.find_or_initialize_by(name: name.strip) } unless authors.nil?
     end
     true
-    rescue StandardError
-      false
+  rescue StandardError
+    false
   end
 end

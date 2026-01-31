@@ -1,3 +1,4 @@
+# typed: true
 class OauthsController < ApplicationController
   allow_unauthenticated_access only: %i[create failure]
 

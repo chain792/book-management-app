@@ -1,3 +1,4 @@
+# typed: true
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[update destroy]
 

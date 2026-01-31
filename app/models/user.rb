@@ -1,6 +1,7 @@
-class User < ApplicationRecord
+# typed: true
 
-  include ImageUploader::Attachment(:avatar)
+class User < ApplicationRecord
+  include UserAttachments
   normalizes :email, with: ->(e) { e.strip.downcase }
 
 
@@ -18,9 +19,9 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: :Relationship, foreign_key: :follower_id, dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :followed
 
-  validates :password, length: { minimum: 4 }, allow_nil: true, if: -> { new_record? || changes[:password_digest] }
-  validates :password, confirmation: true, if: -> { new_record? || changes[:password_digest] }
-  validates :password_confirmation, presence: true, if: -> { new_record? || changes[:password_digest] }
+  validates :password, length: { minimum: 4 }, allow_nil: true, if: -> { T.bind(self, User).new_record? || T.bind(self, User).changes[:password_digest] }
+  validates :password, confirmation: true, if: -> { T.bind(self, User).new_record? || T.bind(self, User).changes[:password_digest] }
+  validates :password_confirmation, presence: true, if: -> { T.bind(self, User).new_record? || T.bind(self, User).changes[:password_digest] }
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true, length: { maximum: 16 }
   validates :introduction, length: { maximum: 1000  }
@@ -34,7 +35,7 @@ class User < ApplicationRecord
     image = auth_hash[:info][:image]
     random_value = SecureRandom.alphanumeric(10) + Time.zone.now.to_i.to_s
     email = auth_hash[:info][:email]
-    
+
     User.find_or_create_by!(provider: provider, uid: uid) do |user|
       user.name = name
       user.remote_avatar_url = image
@@ -57,7 +58,7 @@ class User < ApplicationRecord
   end
 
   def unlike(book)
-    likes.find_by(book_id: book.id).destroy!
+    T.must(likes.find_by(book_id: book.id)).destroy!
   end
 
   def follow?(user)
@@ -69,6 +70,6 @@ class User < ApplicationRecord
   end
 
   def unfollow(user)
-    active_relationships.find_by(follower_id: user.id).destroy!
+    T.must(active_relationships.find_by(follower_id: user.id)).destroy!
   end
 end

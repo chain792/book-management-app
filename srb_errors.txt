@@ -1,0 +1,91 @@
+app/models/user.rb:23: Method `new_record?` does not exist on `T.class_of(User)` https://srb.help/7003
+    23 |  validates :password, length: { minimum: 4 }, allow_nil: true, if: -> { new_record? || changes[:password_digest] }
+                                                                                 ^^^^^^^^^^^
+  Got `T.class_of(User)` originating from:
+    app/models/user.rb:3:
+     3 |class User < ApplicationRecord
+        ^
+
+app/models/user.rb:23: Method `changes` does not exist on `T.class_of(User)` https://srb.help/7003
+    23 |  validates :password, length: { minimum: 4 }, allow_nil: true, if: -> { new_record? || changes[:password_digest] }
+                                                                                                ^^^^^^^
+  Got `T.class_of(User)` originating from:
+    app/models/user.rb:3:
+     3 |class User < ApplicationRecord
+        ^
+
+app/models/user.rb:24: Method `new_record?` does not exist on `T.class_of(User)` https://srb.help/7003
+    24 |  validates :password, confirmation: true, if: -> { new_record? || changes[:password_digest] }
+                                                            ^^^^^^^^^^^
+  Got `T.class_of(User)` originating from:
+    app/models/user.rb:3:
+     3 |class User < ApplicationRecord
+        ^
+
+app/models/user.rb:24: Method `changes` does not exist on `T.class_of(User)` https://srb.help/7003
+    24 |  validates :password, confirmation: true, if: -> { new_record? || changes[:password_digest] }
+                                                                           ^^^^^^^
+  Got `T.class_of(User)` originating from:
+    app/models/user.rb:3:
+     3 |class User < ApplicationRecord
+        ^
+
+app/models/user.rb:25: Method `new_record?` does not exist on `T.class_of(User)` https://srb.help/7003
+    25 |  validates :password_confirmation, presence: true, if: -> { new_record? || changes[:password_digest] }
+                                                                     ^^^^^^^^^^^
+  Got `T.class_of(User)` originating from:
+    app/models/user.rb:3:
+     3 |class User < ApplicationRecord
+        ^
+
+app/models/user.rb:25: Method `changes` does not exist on `T.class_of(User)` https://srb.help/7003
+    25 |  validates :password_confirmation, presence: true, if: -> { new_record? || changes[:password_digest] }
+                                                                                    ^^^^^^^
+  Got `T.class_of(User)` originating from:
+    app/models/user.rb:3:
+     3 |class User < ApplicationRecord
+        ^
+
+app/models/user.rb:42: Setter method `remote_avatar_url=` does not exist on `User` https://srb.help/7003
+    42 |      user.remote_avatar_url = image
+                   ^^^^^^^^^^^^^^^^^
+  Got `User` originating from:
+    app/models/user.rb:40:
+    40 |    User.find_or_create_by!(provider: provider, uid: uid) do |user|
+                                                                      ^^^^
+  Did you mean `restore_avatar_data!`? Use `-a` to autocorrect
+    app/models/user.rb:42: Replace with `restore_avatar_data!`
+    42 |      user.remote_avatar_url = image
+                   ^^^^^^^^^^^^^^^^^
+    sorbet/rbi/dsl/user.rbi:1127: Defined here
+    1127 |    def restore_avatar_data!; end
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+
+app/models/user.rb:62: Method `destroy!` does not exist on `NilClass` component of `T.nilable(Like)` https://srb.help/7003
+    62 |    likes.find_by(book_id: book.id).destroy!
+                                            ^^^^^^^^
+  Got `T.nilable(Like)` originating from:
+    app/models/user.rb:62:
+    62 |    likes.find_by(book_id: book.id).destroy!
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Autocorrect: Use `-a` to autocorrect
+    app/models/user.rb:62: Replace with `T.must(likes.find_by(book_id: book.id))`
+    62 |    likes.find_by(book_id: book.id).destroy!
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+app/models/user.rb:74: Method `destroy!` does not exist on `NilClass` component of `T.nilable(Relationship)` https://srb.help/7003
+    74 |    active_relationships.find_by(follower_id: user.id).destroy!
+                                                               ^^^^^^^^
+  Got `T.nilable(Relationship)` originating from:
+    app/models/user.rb:74:
+    74 |    active_relationships.find_by(follower_id: user.id).destroy!
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Autocorrect: Use `-a` to autocorrect
+    app/models/user.rb:74: Replace with `T.must(active_relationships.find_by(follower_id: user.id))`
+    74 |    active_relationships.find_by(follower_id: user.id).destroy!
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+app/models/user.rb:5: Superclasses and mixins may only use class aliases like `A = Integer` https://srb.help/5008
+     5 |  include AvatarAttachment
+                  ^^^^^^^^^^^^^^^^
+Errors: 10

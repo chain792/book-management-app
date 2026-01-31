@@ -1,3 +1,5 @@
+# typed: true
+
 module ApplicationHelper
   def page_title(title = "")
     base_title = "EngineerBook"
