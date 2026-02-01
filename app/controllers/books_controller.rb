@@ -1,7 +1,9 @@
 # typed: true
+
 class BooksController < ApplicationController
+  extend T::Sig
+
   skip_before_action :require_authentication, only: %i[index show]
-  before_action :set_book, only: %i[edit update destroy]
 
   def index
     @books = Book.all.includes(:authors, :user, :category).order(created_at: :desc)
@@ -14,7 +16,7 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = current_user.books.build(book_params)
+    @book = current_user!.books.build(book_params)
     if @book.save_with_author(authors_params[:authors])
       redirect_to books_path, notice: "レビューを作成しました"
     else
@@ -32,10 +34,12 @@ class BooksController < ApplicationController
   end
 
   def edit
+    @book = current_book
     set_category
   end
 
   def update
+    @book = current_book
     if @book.update(book_params)
       redirect_to book_path(@book), notice: "レビューを更新しました", status: :see_other
     else
@@ -46,6 +50,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
+    @book = current_book
     @book.destroy!
     redirect_to books_path, notice: "レビューを削除しました", status: :see_other
   end
@@ -58,36 +63,44 @@ class BooksController < ApplicationController
       nil
     else
       url = "https://www.googleapis.com/books/v1/volumes"
-      text = params[:search]
-      res = Faraday.get(url, q: text, langRestrict: "ja", maxResults: 30, key: ENV["GOOGLE_API_KEY"])
+      text = T.must(params[:search])
+      connection = Faraday.new
+      res = connection.get(url, q: text, langRestrict: "ja", maxResults: 30, key: ENV["GOOGLE_API_KEY"])
       @google_books = JSON.parse(res.body)
     end
   end
 
   private
 
+  sig { returns(ActionController::Parameters) }
   def book_params
     case action_name
     when "create"
       params.require(:book).permit(:title, :body, :book_image_remote_url, :info_link, :published_date).merge(category_id: category_id)
     when "update"
       params.require(:book).permit(:body)
+    else
+      ActionController::Parameters.new
     end
   end
 
+  sig { returns(T.any(Integer, String)) }
   def category_id
     category_params = params.require(:book).permit(:parent_category, :child_category)
     category_params[:child_category].present? ? category_params[:child_category] : category_params[:parent_category]
   end
 
+  sig { returns(ActionController::Parameters) }
   def authors_params
     params.require(:book).permit(authors: [])
   end
 
-  def set_book
-    @book = current_user.books.find(params[:id])
+  sig { returns(Book) }
+  def current_book
+    current_user!.books.find(params[:id])
   end
 
+  sig { void }
   def set_volume_info
     @volume_info = {}
     @volume_info[:title] = params[:book][:title]
@@ -97,6 +110,7 @@ class BooksController < ApplicationController
     @volume_info[:publishedDate] = params[:book][:published_date]
   end
 
+  sig { void }
   def set_category
     @categories = Category.pluck(:id, :name, :ancestry)
     # 親カテゴリーを取得

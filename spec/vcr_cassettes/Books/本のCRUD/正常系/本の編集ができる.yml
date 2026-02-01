@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://[::1]:4444/__identify__
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Length:
+      - '143'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "value": {
+            "stacktrace": "",
+            "message": "Unable to find handler for (GET) \u002f__identify__",
+            "error": "unknown command"
+          }
+        }
+  recorded_at: Sun, 01 Feb 2026 08:51:14 GMT
+- request:
+    method: get
+    uri: http://[::1]:4444/__identify__
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Length:
+      - '143'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "value": {
+            "stacktrace": "",
+            "message": "Unable to find handler for (GET) \u002f__identify__",
+            "error": "unknown command"
+          }
+        }
+  recorded_at: Sun, 01 Feb 2026 08:51:14 GMT
+- request:
+    method: get
+    uri: http://[::1]:4444/__identify__
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '5'
+    body:
+      encoding: UTF-8
+      string: '21720'
+  recorded_at: Sun, 01 Feb 2026 08:51:15 GMT
+recorded_with: VCR 6.4.0

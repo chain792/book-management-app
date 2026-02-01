@@ -4,7 +4,6 @@ class User < ApplicationRecord
   include UserAttachments
   normalizes :email, with: ->(e) { e.strip.downcase }
 
-
   has_many :books, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy

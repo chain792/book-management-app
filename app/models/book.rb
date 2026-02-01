@@ -1,7 +1,8 @@
 # typed: true
-# typed: true
 
 class Book < ApplicationRecord
+  extend T::Sig
+
   include BookAttachments
 
   belongs_to :user
@@ -15,6 +16,7 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :body, length: { minimum: 5, maximum: 2000 }
 
+  sig { params(authors: T.nilable(T::Array[String])).returns(T::Boolean) }
   def save_with_author(authors)
     ActiveRecord::Base.transaction do
       self.save!

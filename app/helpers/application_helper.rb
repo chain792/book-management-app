@@ -1,42 +1,50 @@
-# typed: true
+# typed: strict
 
 module ApplicationHelper
+  extend T::Sig
+
+  sig { params(title: String).returns(String) }
   def page_title(title = "")
     base_title = "EngineerBook"
     title.present? ? "#{title} - #{base_title}" :  base_title
   end
 
+  sig { params(datetime: ActiveSupport::TimeWithZone).returns(String) }
   def date(datetime)
     datetime.strftime("%Y年%m月%d日")
   end
 
+  sig { params(date: ActiveSupport::TimeWithZone).returns(String) }
   def date_ago(date)
     seconds = (Time.zone.now - date).floor
 
-    years = seconds / (60 * 60 * 24 * 365)
+    years = (seconds / (60 * 60 * 24 * 365)).to_i
     return "#{years}年前" if years.positive?
 
-    days = seconds / (60 * 60 * 24)
+    days = (seconds / (60 * 60 * 24)).to_i
     return "#{days}日前" if days.positive?
 
-    hours = seconds / (60 * 60)
+    hours = (seconds / (60 * 60)).to_i
     return "#{hours}時間前" if hours.positive?
 
-    minutes = seconds / 60
+    minutes = (seconds / 60).to_i
     return "#{minutes}分前" if minutes.positive?
 
     "#{seconds}秒前"
   end
 
+  sig { params(google_book: T::Hash[String, T.untyped]).returns(String) }
   def google_book_thumbnail(google_book)
     google_book["volumeInfo"]["imageLinks"].nil? ? "sample.png" : google_book["volumeInfo"]["imageLinks"]["thumbnail"]
   end
 
+  sig { params(google_book: T::Hash[String, T.untyped]).returns(T::Hash[String, T.untyped]) }
   def set_google_book_params(google_book)
     google_book["volumeInfo"]["bookImage"] = google_book.dig("volumeInfo", "imageLinks", "thumbnail")
     google_book["volumeInfo"].slice("title", "authors", "publishedDate", "infoLink", "bookImage")
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def default_meta_tags
     {
       site: "EngineerBook",
