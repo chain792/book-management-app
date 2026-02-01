@@ -108,7 +108,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.20.1)
       msgpack (~> 1.2)
-    brakeman (7.1.2)
+    brakeman (8.0.1)
       racc
     builder (3.3.0)
     bundler-audit (0.9.3)
@@ -415,9 +415,6 @@ GEM
       logger
     rubyzip (3.2.2)
     securerandom (0.4.1)
-    seed-fu (2.3.9)
-      activerecord (>= 3.1)
-      activesupport (>= 3.1)
     selenium-webdriver (4.40.0)
       base64 (~> 0.2)
       logger (~> 1.4)
@@ -547,7 +544,6 @@ DEPENDENCIES
   rails-i18n (~> 8.0)
   rspec-rails
   rubocop-rails-omakase
-  seed-fu
   selenium-webdriver
   shrine
   simplecov
