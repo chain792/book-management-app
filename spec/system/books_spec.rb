@@ -26,7 +26,7 @@ RSpec.describe 'Books', type: :system, vcr: true do
         select 'Ruby', from: 'child_category'
 
         # 保存
-        expect { 
+        expect {
           click_button '登録する'
           expect(page).to have_current_path books_path
           expect(page).to have_content 'レビューを作成しました'

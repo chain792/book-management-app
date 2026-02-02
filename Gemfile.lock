@@ -509,6 +509,10 @@ GEM
     useragent (0.16.11)
     vcr (6.4.0)
     version_gem (1.1.9)
+    view_component (4.2.0)
+      actionview (>= 7.1.0)
+      activesupport (>= 7.1.0)
+      concurrent-ruby (~> 1)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -589,6 +593,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   vcr
+  view_component
   web-console
   webdrivers
   webmock

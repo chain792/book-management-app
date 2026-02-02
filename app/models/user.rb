@@ -1,8 +1,12 @@
 # typed: true
 
 class User < ApplicationRecord
+  extend T::Sig
   include UserAttachments
   normalizes :email, with: ->(e) { e.strip.downcase }
+
+  sig { returns(T.nilable(String)) }
+  def avatar_url; end
 
   has_many :books, dependent: :destroy
   has_many :comments, dependent: :destroy

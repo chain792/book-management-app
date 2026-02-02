@@ -1,79 +1,60 @@
-<% content_for(:title, '本検索') %>
+<% content_for(:title, '本を探す') %>
 
-<div class="mx-auto max-w-6xl px-4 pt-3">
-  <!-- 検索フォーム -->
-  <div class="mb-3">
-    <div class="mx-auto max-w-3xl">
-      <%= form_with url: search_books_path, method: :get do |f| %>
-        <div class="mb-3">
-          <p class="mb-1 font-bold text-gray-900">
-            レビューする本を検索してください
-          </p>
-
-          <%= f.search_field :search,
-            class: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500",
-            placeholder: "検索",
-            value: params[:search] %>
-
-          <p class="mt-1 text-xs text-gray-500">
-            書名・著者等で検索することができます。
-          </p>
-        </div>
-
-        <%= f.submit '検索',
-          class: "rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700" %>
-      <% end %>
-    </div>
+<div class="max-w-4xl mx-auto space-y-12">
+  <!-- Search Header -->
+  <div class="text-center space-y-4">
+    <h1 class="text-3xl font-black text-brand-900 tracking-tight">
+      新しく本をレビューする
+    </h1>
+    <p class="text-brand-500 font-medium max-w-xl mx-auto">
+      レビューしたい本をタイトルや著者名で検索してください。<br>
+      Google Books から最新の情報を取得します。
+    </p>
   </div>
 
-  <!-- 検索結果 -->
-  <% if @google_books.present? %>
-    <div class="mb-3 rounded-md border border-gray-200 bg-white px-3">
-      <p class="my-2 font-bold text-gray-900">
-        検索結果
-        <span class="ml-2 text-xs font-normal text-gray-600">
-          キーワード : <%= params[:search] %>
-        </span>
-      </p>
-    </div>
-
-    <!-- カード一覧 -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <% @google_books['items']&.each do |google_book| %>
-        <div>
-          <div class="relative mb-3 h-[220px] min-w-[300px] rounded-lg border border-gray-200 bg-white shadow-sm">
-            <div class="flex h-full">
-              <!-- 画像 -->
-              <div class="w-5/12">
-                <%= image_tag google_book_thumbnail(google_book),
-                  class: "ml-2 mt-2 h-auto max-w-full rounded border" %>
-              </div>
-
-              <!-- 本情報 -->
-              <div class="w-7/12">
-                <div class="p-4">
-                  <h5 class="mb-1 text-sm font-semibold text-gray-900">
-                    <%= google_book['volumeInfo']['title'].truncate(30) %>
-                  </h5>
-
-                  <p class="mb-2 text-xs text-gray-700">
-                    <%= google_book['volumeInfo']['authors']&.join(', ')&.truncate(20) %>
-                  </p>
-
-                  <p class="text-xs text-gray-500">
-                    <%= google_book['volumeInfo']['publishedDate'] %>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- カード全体リンク -->
-            <%= link_to "",
-              new_book_path(volumeInfo: set_google_book_params(google_book)),
-              class: "absolute inset-0 card-link" %>
-          </div>
+  <!-- Search UI -->
+  <div class="glass p-8 rounded-[2rem] border border-brand-100 shadow-2xl">
+    <%= form_with url: search_books_path, method: :get, class: "relative" do |f| %>
+      <div class="relative group">
+        <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none z-10">
+          <svg class="w-5 h-5 text-brand-400 group-focus-within:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
         </div>
-      <% end %>
+        <%= render Ui::Form::InputComponent.new(
+              form: f, 
+              field: :search, 
+              type: "search", 
+              placeholder: "本の題、著者名...", 
+              class_names: "pl-14 pr-40 py-5 text-lg",
+              value: params[:search]
+            ) %>
+        <div class="absolute inset-y-2 right-2 flex items-center">
+          <%= render Ui::ButtonComponent.new(type: "submit", class_names: "h-full px-8 rounded-xl !font-bold") do %>
+            検索する
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Results Section -->
+  <% if @google_books.present? %>
+    <div class="space-y-6">
+      <div class="flex items-center space-x-3 px-2">
+        <h2 class="text-xl font-bold text-brand-900 italic">"<%= params[:search] %>" の検索結果</h2>
+        <span class="h-px flex-grow bg-brand-100"></span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <% @google_books['items']&.each do |google_book| %>
+          <%= render GoogleBookCardComponent.new(google_book: google_book) %>
+        <% end %>
+      </div>
+    </div>
+  <% elsif params[:search].present? %>
+    <div class="text-center py-20 bg-brand-50 rounded-[2rem] border border-brand-100 border-dashed">
+      <p class="text-brand-400 font-bold">見つかりませんでした。別のキーワードを試してみてください。</p>
     </div>
   <% end %>
 </div>

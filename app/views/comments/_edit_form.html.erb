@@ -1,12 +1,17 @@
-<%= form_with model: comment, id: dom_id(comment, :form), data: { action: "turbo:submit-end->comment#afterSubmit" } do |f| %>
+<%= form_with model: comment, id: dom_id(comment, :form), data: { action: "turbo:submit-end->comment#afterSubmit" }, class: "space-y-3" do |f| %>
   <%= render 'shared/error_message', object: f.object %>
-  <%= f.text_area :body,
-    data: { "comment-target": "input" },
-    class: "mb-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
-  <div class="flex gap-2">
-    <button type="button" data-action="comment#cancel" class="rounded-md bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300">
+  <%= render Ui::Form::TextAreaComponent.new(
+        form: f, 
+        field: :body, 
+        data: { "comment-target": "input" },
+        class_names: "!text-sm font-medium"
+      ) %>
+  <div class="flex items-center space-x-2">
+    <button type="button" data-action="comment#cancel" class="px-4 py-2 text-xs font-bold text-brand-400 hover:text-brand-600 transition-colors">
       キャンセル
     </button>
-    <%= f.submit '保存', class: "rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700 cursor-pointer" %>
+    <%= render Ui::ButtonComponent.new(variant: "secondary", type: "submit", class_names: "py-2 px-6 text-xs shadow-md cursor-pointer") do %>
+      更新する
+    <% end %>
   </div>
 <% end %>

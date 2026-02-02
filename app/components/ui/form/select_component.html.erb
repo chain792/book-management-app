@@ -1,0 +1,8 @@
+<div class="relative">
+  <%= form.select field, @choices, @options, { class: "#{base_classes} #{@html_options[:class]}", **@html_options.except(:class) } %>
+  <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-brand-400">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+</div>

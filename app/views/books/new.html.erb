@@ -1,91 +1,90 @@
-<% content_for(:title, 'レビュー投稿') %>
+<% content_for(:title, 'レビューを投稿する') %>
 
-<div class="mx-auto mt-3 max-w-3xl px-4">
-  <h1 class="mb-3 text-2xl font-bold text-gray-900">
-    レビュー投稿
-  </h1>
-
-  <!-- 本情報カード -->
-  <div class="mb-4 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
-    <div class="flex">
-      <!-- 画像 -->
-      <div class="w-5/12">
-        <%= image_tag @volume_info[:bookImage].blank? ? 'sample.png' : @volume_info[:bookImage],
-          class: "h-auto max-w-full rounded border" %>
-      </div>
-
-      <!-- 本情報 -->
-      <div class="w-7/12">
-        <div class="p-4">
-          <h5 class="mb-1 text-base font-semibold text-gray-900">
-            <%= @volume_info[:title] %>
-          </h5>
-
-          <p class="mb-2 text-sm text-gray-700">
-            <%= @volume_info[:authors]&.join(', ') %>
-          </p>
-
-          <p class="mb-2 text-xs text-gray-500">
-            <%= @volume_info[:publishedDate] %>
-          </p>
-
-          <%= link_to '詳細を見る',
-            @volume_info[:infoLink],
-            target: '_blank',
-            class: "text-sm text-blue-600 hover:text-blue-700 underline" %>
-        </div>
-      </div>
-    </div>
+<div class="max-w-4xl mx-auto space-y-12">
+  <div class="text-center space-y-2">
+    <h1 class="text-3xl font-black text-brand-900 tracking-tight">レビューを投稿する</h1>
+    <p class="text-brand-500 font-medium whitespace-nowrap">あなたの知識を、仲間のエンジニアへの価値あるギフトに。</p>
   </div>
 
-  <!-- 投稿フォーム -->
-  <%= form_with model: @book, url: books_path, 
-      data: { 
-        controller: "category-select", 
-        category_select_categories_value: @categories.to_json 
-      } do |f| %>
-    <%= render 'shared/error_message', object: f.object %>
-
-    <!-- 本文 -->
-    <div class="mb-4">
-      <%= f.label :body,
-        class: "mb-1 block text-sm font-bold text-gray-900" %>
-
-      <%= f.text_area :body,
-        rows: 5,
-        placeholder: "5文字以上で入力してください",
-        class: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm
-               focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+  <div class="glass overflow-hidden rounded-[2.5rem] border-none shadow-2xl">
+    <!-- Book Info Banner -->
+    <div class="bg-brand-900 p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
+      <div class="relative group flex-shrink-0">
+        <div class="absolute -inset-2 bg-white/20 rounded-2xl blur group-hover:bg-white/30 transition duration-500"></div>
+        <%= image_tag @volume_info[:bookImage].blank? ? 'sample.png' : @volume_info[:bookImage],
+            class: "relative w-28 md:w-36 h-auto rounded-xl shadow-2xl border-2 border-white/10" %>
+      </div>
+      <div class="flex-grow text-center md:text-left space-y-3">
+        <h2 class="text-2xl font-black text-white leading-tight"><%= @volume_info[:title] %></h2>
+        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
+          <span class="text-brand-200 font-bold text-sm"><%= @volume_info[:authors]&.join(', ') %></span>
+          <span class="w-1.5 h-1.5 bg-brand-700 rounded-full"></span>
+          <span class="text-brand-400 font-bold text-xs uppercase tracking-widest"><%= @volume_info[:publishedDate] %></span>
+        </div>
+        <%= link_to @volume_info[:infoLink], target: '_blank', class: "inline-flex items-center text-accent-500 font-bold text-sm hover:text-white transition-colors" do %>
+          詳細を確認
+          <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        <% end %>
+      </div>
     </div>
 
-    <!-- カテゴリ選択 -->
-    <div class="mb-3" id="category-select-form" data-category-select-target="childContainer">
-      <%= f.label :category, class: "mb-1 block text-sm font-bold text-gray-900" %>
-      
-      <%= f.select :parent_category,
-        @parent_category,
-        { include_blank: "大カテゴリを選択" },
-        { 
-          id: "parent_category",
-          class: "mb-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500",
-          data: { action: "change->category-select#change" } 
-        } %>
+    <!-- Review Form -->
+    <div class="p-8 md:p-12">
+      <%= form_with model: @book, url: books_path, 
+          class: "space-y-10",
+          data: { 
+            controller: "category-select", 
+            category_select_categories_value: @categories.to_json 
+          } do |f| %>
+        <%= render 'shared/error_message', object: f.object %>
+
+        <div class="space-y-8">
+          <div class="space-y-3">
+            <%= render Ui::Form::LabelComponent.new(form: f, field: :body, text: "レビュー内容") %>
+            <%= render Ui::Form::TextAreaComponent.new(form: f, field: :body, rows: 8, placeholder: "この本から何を学びましたか？ どのようなエンジニアにおすすめですか？") %>
+            <p class="text-[10px] text-brand-300 font-bold px-2 italic text-right">※ 5文字以上入力してください</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="category-select-form" data-category-select-target="childContainer">
+            <div class="space-y-3">
+              <%= render Ui::Form::LabelComponent.new(form: f, field: :parent_category, text: "カテゴリー選択") %>
+              <%= render Ui::Form::SelectComponent.new(
+                    form: f, 
+                    field: :parent_category, 
+                    choices: @parent_category, 
+                    options: { include_blank: "メインカテゴリーを選択" }, 
+                    id: "parent_category",
+                    data: { action: "change->category-select#change" } 
+                  ) %>
+            </div>
+            <!-- Subcategory will be rendered here by Stimulus -->
+          </div>
+        </div>
+
+        <!-- Hidden Fields -->
+        <%= f.hidden_field :title, value: @volume_info[:title] %>
+        <%= f.hidden_field :published_date, value: @volume_info[:publishedDate] %>
+        <%= f.hidden_field :info_link, value: @volume_info[:infoLink] %>
+        <%= f.hidden_field :book_image_remote_url, value: @volume_info[:bookImage] %>
+        <% @volume_info[:authors]&.each do |author| %>
+          <%= hidden_field_tag 'book[authors][]', author %>
+        <% end %>
+
+        <div class="pt-8 border-t border-brand-50 flex items-center justify-between">
+          <%= link_to 'キャンセル', search_books_path, class: 'text-sm font-bold text-brand-400 hover:text-brand-600 transition-colors' %>
+          <%= render Ui::ButtonComponent.new(
+                type: "submit", 
+                id: "submit-button",
+                disabled: true,
+                class_names: "px-10 py-4", 
+                data: { category_select_target: "submitButton" }
+              ) do %>
+            レビューを公開する
+          <% end %>
+        </div>
+      <% end %>
     </div>
-
-    <!-- hidden fields -->
-    <%= f.hidden_field :title, value: @volume_info[:title] %>
-    <%= f.hidden_field :published_date, value: @volume_info[:publishedDate] %>
-    <%= f.hidden_field :info_link, value: @volume_info[:infoLink] %>
-    <%= f.hidden_field :book_image_remote_url, value: @volume_info[:bookImage] %>
-
-    <% @volume_info[:authors]&.each do |author| %>
-      <%= hidden_field_tag 'book[authors][]', author %>
-    <% end %>
-
-    <!-- submit -->
-    <%= f.submit '登録する', id: "submit-button",
-        disabled: true,
-        class: "bg-gray-400 text-white px-4 py-2 rounded",
-        data: { category_select_target: "submitButton" } %>
-  <% end %>
+  </div>
 </div>

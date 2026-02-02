@@ -1,39 +1,50 @@
-<% content_for(:title, 'ユーザー登録') %>
-<div class="container mx-auto mt-3 px-3">
-  <div class="flex justify-center">
-    <div class="w-full md:w-10/12 lg:w-8/12">
-      <h1 class="mb-3 text-2xl font-bold">ユーザー登録</h1>
-      <div class="bg-white border rounded-xl p-6">
-        <%= form_with model: @user do |f| %>
-          <%= render 'shared/error_message', object: f.object %>
+<% content_for(:title, 'エンジニア登録') %>
 
-          <div class="mb-4">
-            <%= f.label :name, class: 'block font-semibold mb-1' %>
-            <%= f.text_field :name, class: 'w-full border rounded px-3 py-2', placeholder: '名前を入力' %>
+<div class="max-w-xl mx-auto space-y-10 py-12">
+  <div class="text-center space-y-2">
+    <h1 class="text-4xl font-black text-brand-900 tracking-tighter">新しく始める</h1>
+    <p class="text-brand-500 font-medium">エンジニアのための、最高のレビューコミュニティへようこそ。</p>
+  </div>
+
+  <div class="glass p-8 md:p-12 rounded-[2.5rem] border-none shadow-2xl">
+    <%= form_with model: @user, class: "space-y-6" do |f| %>
+      <%= render 'shared/error_message', object: f.object %>
+
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <%= render Ui::Form::LabelComponent.new(form: f, field: :name, text: "お名前") %>
+          <%= render Ui::Form::InputComponent.new(form: f, field: :name, placeholder: "エンジニア 太郎") %>
+        </div>
+
+        <div class="space-y-2">
+          <%= render Ui::Form::LabelComponent.new(form: f, field: :email, text: "メールアドレス") %>
+          <%= render Ui::Form::InputComponent.new(form: f, field: :email, type: "email", placeholder: "taro@example.com") %>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <%= render Ui::Form::LabelComponent.new(form: f, field: :password, text: "パスワード") %>
+            <%= render Ui::Form::InputComponent.new(form: f, field: :password, type: "password", placeholder: "••••••••") %>
           </div>
-
-          <div class="mb-4">
-            <%= f.label :email, class: 'block font-semibold mb-1' %>
-            <%= f.email_field :email, class: 'w-full border rounded px-3 py-2', placeholder: 'メールアドレスを入力' %>
+          <div class="space-y-2">
+            <%= render Ui::Form::LabelComponent.new(form: f, field: :password_confirmation, text: "確認用") %>
+            <%= render Ui::Form::InputComponent.new(form: f, field: :password_confirmation, type: "password", placeholder: "••••••••") %>
           </div>
-
-          <div class="mb-4">
-            <%= f.label :password, class: 'block font-semibold mb-1' %>
-            <%= f.password_field :password, class: 'w-full border rounded px-3 py-2', placeholder: '半角英数字4文字以上' %>
-          </div>
-
-          <div class="mb-4">
-            <%= f.label :password_confirmation, class: 'block font-semibold mb-1' %>
-            <%= f.password_field :password_confirmation, class: 'w-full border rounded px-3 py-2', placeholder: '半角英数字4文字以上' %>
-          </div>
-
-          <%= f.submit '登録', class: 'bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded px-4 py-2' %>
-        <% end %>
-
-        <div class="text-center mt-4">
-          <%= link_to 'ログインページへ', login_path, class: 'text-blue-500 hover:underline' %>
         </div>
       </div>
+
+      <div class="pt-4">
+        <%= render Ui::ButtonComponent.new(type: "submit", class_names: "w-full py-4 shadow-xl shadow-brand-500/20 cursor-pointer") do %>
+          アカウントを作成
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="mt-8 pt-8 border-t border-brand-50 text-center">
+      <p class="text-sm font-bold text-brand-400">
+        すでにアカウントをお持ちですか？
+        <%= link_to 'ログインはこちら', login_path, class: 'text-brand-600 hover:text-brand-900 ml-1 transition-colors underline' %>
+      </p>
     </div>
   </div>
 </div>

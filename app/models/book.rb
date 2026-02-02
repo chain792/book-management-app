@@ -5,6 +5,9 @@ class Book < ApplicationRecord
 
   include BookAttachments
 
+  sig { returns(T.nilable(String)) }
+  def book_image_url; end
+
   belongs_to :user
   belongs_to :category
   has_many :book_authors, dependent: :destroy
