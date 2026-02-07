@@ -1,10 +1,22 @@
+REMOTE_SELENIUM_URL = ENV.fetch('SELENIUM_REMOTE_URL', 'http://selenium_chrome:4444/wd/hub').freeze
+
+def remote_selenium?
+  return true if ENV['USE_REMOTE_SELENIUM'] == '1'
+  return true if File.exist?('/.dockerenv')
+  false
+end
+
 RSpec.configure do |config|
   config.before(:each, type: :system) do |example|
     if example.metadata[:js]
-      driven_by :remote_chrome
-      Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
-      Capybara.server_port = 4444
-      Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+      if remote_selenium?
+        driven_by :remote_chrome
+        Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+        Capybara.server_port = 4444
+        Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+      else
+        driven_by :selenium_chrome_headless
+      end
     else
       driven_by :rack_test
     end
@@ -13,7 +25,7 @@ end
 
 # Chrome
 Capybara.register_driver :remote_chrome do |app|
-  url = 'http://selenium_chrome:4444/wd/hub'
+  url = REMOTE_SELENIUM_URL
   options = ::Selenium::WebDriver::Chrome::Options.new
   options.add_argument('no-sandbox')
   options.add_argument('headless')

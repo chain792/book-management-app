@@ -80,6 +80,7 @@ module Authentication
 
     sig { returns(T.nilable(User)) }
     def current_user
+      resume_session
       Current.session&.user
     end
 

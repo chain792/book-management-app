@@ -1,4 +1,4 @@
-<div class="space-y-8">
+<div class="space-y-8" data-testid="book-details">
   <!-- Breadcrumb -->
   <nav class="flex px-2 space-x-2 text-[10px] font-bold uppercase tracking-widest text-brand-400">
     <% category_path.each_with_index do |category, index| %>
@@ -36,7 +36,7 @@
           </h1>
 
           <% if own_book? %>
-            <div class="relative flex-shrink-0" data-controller="dropdown">
+            <div class="relative flex-shrink-0" data-controller="dropdown" data-testid="book-actions">
               <button data-action="click->dropdown#toggle click@window->dropdown#close" class="p-2 text-brand-300 hover:text-brand-600 border border-brand-50 rounded-xl hover:bg-brand-50 transition-all">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />

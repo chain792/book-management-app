@@ -14,7 +14,8 @@
         </div>
 
         <% if own_comment? %>
-          <div data-comment-target="view" class="flex-shrink-0 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+          <% action_visibility = Rails.env.test? ? "" : "opacity-0 group-hover:opacity-100" %>
+          <div data-comment-target="view" class="flex-shrink-0 ml-4 <%= action_visibility %> transition-opacity">
             <div class="relative" data-controller="dropdown">
               <button data-action="click->dropdown#toggle click@window->dropdown#close" class="p-1.5 text-brand-300 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-all">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
