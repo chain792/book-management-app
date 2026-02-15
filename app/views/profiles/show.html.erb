@@ -1,80 +1,26 @@
-<% content_for(:title, 'マイページ') %>
+<%= render ProfileHeaderComponent.new(user: current_user) %>
 
-<div class="mt-3">
-  <div class="mx-auto max-w-4xl px-4">
-    <h1 class="mb-3 text-2xl font-semibold">マイページ</h1>
+<div class="mt-20 space-y-10">
+  <div class="flex items-center justify-between px-2">
+    <h2 class="text-2xl font-black text-brand-900 tracking-tight flex items-center">
+      <svg class="w-6 h-6 mr-3 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+      あなたのレビュー履歴
+    </h2>
+    <span class="text-sm font-bold text-brand-400"><%= @books.size %> 投稿</span>
+  </div>
 
-    <!-- ユーザー情報 -->
-    <div class="bg-white border rounded-lg p-4 min-w-[300px]">
-      <div class="md:flex">
-        <%= image_tag current_user.avatar_url || "default_avatar.png",
-              size: '60x60',
-              class: 'm-3 md:mr-5 rounded-full object-cover' %>
-
-        <div class="flex-1 mt-1 md:mt-0">
-          <table class="w-full text-sm">
-            <tr>
-              <td class="font-semibold text-gray-700"><%= User.human_attribute_name('name') %>:</td>
-              <td><%= current_user.name %></td>
-            </tr>
-            <% if current_user.role != 'guest' %>
-              <tr>
-                <td class="font-semibold text-gray-700"><%= User.human_attribute_name('email') %>:</td>
-                <td><%= current_user.email %></td>
-              </tr>
-            <% end %>
-            <tr>
-              <td class="font-semibold text-gray-700">参加日:</td>
-              <td><%= date(current_user.created_at) %></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- 自己紹介 -->
-      <div class="pt-3">
-        <p class="border-b font-semibold text-sm mb-2">自己紹介</p>
-        <p class="text-sm"><%= simple_format current_user.introduction %></p>
-      </div>
-
-      <!-- フォロー / フォロワー -->
-      <div class="flex mb-3 mt-3 gap-6">
-        <%= link_to following_user_path(current_user),
-                    class: "text-gray-800 hover:text-blue-600 text-sm",
-                    id: 'follow-count' do %>
-          <span class="font-semibold"><%= current_user.followings.length %></span>
-          <span class="text-gray-500">フォロー中</span>
-        <% end %>
-
-        <%= link_to follower_user_path(current_user),
-                    class: "text-gray-800 hover:text-blue-600 text-sm",
-                    id: 'follower-count' do %>
-          <span class="font-semibold"><%= current_user.followers.length %></span>
-          <span class="text-gray-500">フォロワー</span>
-        <% end %>
-      </div>
-
-      <%= link_to '編集',
-                  edit_profile_path,
-                  class: 'inline-block rounded-md bg-blue-600 px-4 py-2 text-white text-sm font-semibold hover:bg-blue-700' %>
-    </div>
-
-    <!-- レビュー履歴ヘッダー -->
-    <div class="bg-white border rounded-lg px-4 mt-3 min-w-[300px]">
-      <p class="pt-3 font-semibold text-lg">レビュー履歴</p>
-    </div>
-
-    <!-- 投稿一覧 -->
-    <div class="mt-3 grid gap-4 lg:grid-cols-2 grid-cols-1">
-      <% if @books.present? %>
-        <% @books.each do |book| %>
-          <div>
-            <%= render 'books/book', book: book %>
-          </div>
-        <% end %>
-      <% else %>
-        <p class="text-gray-500 text-sm">レビューした本はありません。</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <% if @books.present? %>
+      <% @books.each do |book| %>
+        <%= render BookCardComponent.new(book: book) %>
       <% end %>
-    </div>
+    <% else %>
+      <div class="col-span-full py-20 text-center glass rounded-[2rem] border-dashed border-2 border-brand-100">
+        <p class="text-brand-400 font-bold">まだレビューした本はありません。</p>
+        <%= link_to '最初のレビューを書く', search_books_path, class: 'btn-secondary mt-6 inline-block' %>
+      </div>
+    <% end %>
   </div>
 </div>

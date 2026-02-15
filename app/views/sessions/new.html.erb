@@ -1,46 +1,78 @@
 <% content_for(:title, 'ログイン') %>
-<div class="max-w-4xl mx-auto mt-6 px-4">
-  <h1 class="text-3xl font-bold mb-6 text-center">ログイン</h1>
 
-  <div class="md:flex md:space-x-4">
-    <!-- ログインフォーム -->
-    <div class="bg-white border rounded-xl p-6 pb-10 flex-1 mb-4 md:mb-0">
-      <%= form_with url: session_path do |f| %>
-        <div class="mb-4">
-          <%= f.label :email, User.human_attribute_name(:email), class: 'block font-semibold mb-1' %>
-          <%= f.text_field :email, class: 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400', placeholder: 'メールアドレスを入力' %>
+<div class="max-w-5xl mx-auto py-12 px-4">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    
+    <!-- Branding & Message -->
+    <div class="space-y-8 text-center lg:text-left">
+      <div class="space-y-4">
+        <h1 class="text-5xl font-black text-brand-900 tracking-tighter leading-none">
+          おかえりなさい、<br><span class="text-brand-500">エンジニア。</span>
+        </h1>
+        <p class="text-brand-500 text-lg font-medium">
+          あなたの知見が、今日も誰かのエンジニア人生を変えるかもしれません。
+        </p>
+      </div>
+      
+      <div class="hidden lg:block">
+        <div class="glass p-6 rounded-3xl border-none shadow-indigo-50 flex items-center space-x-4">
+          <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-xs font-black text-brand-400 uppercase tracking-widest">Quick Access</p>
+            <p class="text-sm font-bold text-brand-900">ポートフォリオ確認、レビューの続きを今すぐ。</p>
+          </div>
         </div>
-
-        <div class="mb-4">
-          <%= f.label :password, User.human_attribute_name(:password), class: 'block font-semibold mb-1' %>
-          <%= f.password_field :password, class: 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400', placeholder: 'パスワードを入力' %>
-        </div>
-
-        <div class="mb-4">
-          <%= f.submit 'ログイン', class: 'w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700' %>
-        </div>
-      <% end %>
-
-      <p class="text-center font-semibold text-sm my-4">または</p>
-
-      <%= button_to '/auth/twitter', class: 'w-full bg-blue-400 text-white py-2 rounded flex items-center justify-center hover:bg-blue-500' do %>
-        <i class="bi bi-twitter mr-2"></i> Twitterでログイン
-      <% end %>
+      </div>
     </div>
 
-    <!-- アカウント作成 / ゲストログイン -->
-    <div class="bg-white border rounded-xl p-6 pb-10 flex-1 flex flex-col justify-between">
-      <div>
-        <p class="font-semibold mb-4 border-b pb-2 text-lg">アカウントをお持ちでない方へ</p>
+    <!-- Login Card -->
+      <div class="glass p-8 md:p-12 rounded-[2.5rem] border-none shadow-2xl">
+        <%= form_with url: session_path, class: "space-y-6" do |f| %>
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <%= render Ui::Form::LabelComponent.new(form: f, field: :email, text: "メールアドレス") %>
+              <%= render Ui::Form::InputComponent.new(form: f, field: :email, type: "email", placeholder: "your@email.com") %>
+            </div>
 
-        <div class="mb-6">
-          <p class="text-center text-sm mb-2">ゲストユーザとしてログインする</p>
-          <%= button_to 'ゲストログイン', guest_login_path, class: 'w-full bg-yellow-400 py-2 rounded hover:bg-yellow-500' %>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center px-1">
+                <%= render Ui::Form::LabelComponent.new(form: f, field: :password, text: "パスワード") %>
+                <%= link_to "忘れた場合はこちら", new_password_path, class: "text-[10px] font-bold text-brand-300 hover:text-brand-600 transition-colors" %>
+              </div>
+              <%= render Ui::Form::InputComponent.new(form: f, field: :password, type: "password", placeholder: "••••••••") %>
+            </div>
+          </div>
+
+          <%= render Ui::ButtonComponent.new(type: "submit", class_names: "w-full py-4 shadow-xl shadow-brand-500/20 cursor-pointer") do %>
+            ログインする
+          <% end %>
+        <% end %>
+
+        <div class="relative py-8">
+          <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-brand-50"></span></div>
+          <div class="relative flex justify-center text-xs font-black uppercase tracking-widest text-brand-300">
+            <span class="bg-white px-4">Social Login</span>
+          </div>
         </div>
 
-        <div>
-          <p class="text-center text-sm mb-2">新しくアカウントを作成する</p>
-          <%= link_to '登録ページへ', new_user_path, class: 'w-full border border-blue-600 text-blue-600 py-2 rounded hover:bg-blue-50 block text-center' %>
+        <%= button_to '/auth/twitter', class: 'w-full bg-[#1da1f2] text-white py-4 rounded-2xl font-black text-sm flex items-center justify-center hover:bg-[#1a91da] transition-colors shadow-lg shadow-blue-500/10' do %>
+          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          Twitterでログイン
+        <% end %>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-white p-6 rounded-3xl border border-brand-50 text-center space-y-3 shadow-sm">
+          <p class="text-[10px] font-black text-brand-300 uppercase tracking-widest">New here?</p>
+          <%= link_to 'アカウントを作成', new_user_path, class: 'block text-sm font-bold text-brand-600 hover:text-brand-900 transition-colors' %>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-brand-50 text-center space-y-3 shadow-sm">
+          <p class="text-[10px] font-black text-brand-300 uppercase tracking-widest">Just looking?</p>
+          <%= button_to 'ゲストログイン', guest_login_path, class: 'w-full text-sm font-bold text-accent-500 hover:text-amber-600 transition-colors bg-transparent border-none p-0 cursor-pointer' %>
         </div>
       </div>
     </div>

@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+@theme {
+  /* Colors - Sleek Slate & Deep Indigo */
+  --color-brand-50: oklch(0.97 0.01 250);
+  --color-brand-100: oklch(0.93 0.02 250);
+  --color-brand-200: oklch(0.85 0.05 250);
+  --color-brand-300: oklch(0.75 0.08 250);
+  --color-brand-400: oklch(0.65 0.12 250);
+  --color-brand-500: oklch(0.55 0.15 250); /* Primary Branding */
+  --color-brand-600: oklch(0.45 0.18 250);
+  --color-brand-700: oklch(0.35 0.15 250);
+  --color-brand-800: oklch(0.25 0.12 250);
+  --color-brand-900: oklch(0.15 0.08 250);
+
+  --color-accent-500: oklch(0.75 0.18 60); /* Vibrant Coral/Amber for accents */
+
+  /* Typography */
+  --font-sans: "Inter", "Outfit", "system-ui", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-50 text-brand-900 font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Premium Glass Effect */
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+
+  /* Interactive Card */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-brand-300;
+  }
+
+  /* Modern Buttons */
+  .btn-primary {
+    @apply px-6 py-2.5 bg-brand-600 text-white rounded-full font-semibold 
+           transition-all duration-300 hover:bg-brand-700 hover:shadow-lg focus:ring-4 focus:ring-brand-300;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2.5 bg-white text-brand-700 border border-brand-200 rounded-full font-semibold
+           transition-all duration-300 hover:bg-brand-50 shadow-sm;
+  }
+
+  /* Typography Enhancements */
+  .heading-xl {
+    @apply text-4xl md:text-5xl font-extrabold tracking-tight text-brand-900;
+  }
+}

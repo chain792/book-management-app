@@ -1,16 +1,19 @@
-<%= form_with model: [book, comment], id: 'new-comment', class: "space-y-3" do |f| %>
+<%= form_with model: [book, comment], id: 'new-comment', class: "space-y-4" do |f| %>
   <%= render 'shared/error_message', object: f.object %>
 
-  <div>
-    <%= f.label :body, 'コメントを残す', class: 'block text-sm font-semibold text-gray-700 mb-1' %>
-    <%= f.text_area :body,
-          placeholder: 'コメントを追加…',
-          id: 'new-comment-body',
-          class: 'w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200' %>
+  <div class="space-y-2">
+    <%= render Ui::Form::LabelComponent.new(form: f, field: :body, text: "コメントを残す") %>
+    <%= render Ui::Form::TextAreaComponent.new(
+          form: f, 
+          field: :body, 
+          placeholder: "あなたの感想や質問をここに...", 
+          id: "new-comment-body"
+        ) %>
   </div>
 
-  <div>
-    <%= f.submit '投稿',
-          class: 'inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300' %>
+  <div class="flex justify-end">
+    <%= render Ui::ButtonComponent.new(type: "submit", class_names: "py-3 px-8 text-sm shadow-lg shadow-brand-500/10 cursor-pointer") do %>
+      コメントを投稿
+    <% end %>
   </div>
 <% end %>

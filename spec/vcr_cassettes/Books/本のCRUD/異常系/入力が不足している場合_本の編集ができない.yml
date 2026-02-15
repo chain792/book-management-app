@@ -1,0 +1,27 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://[::1]:4444/__identify__
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '5'
+    body:
+      encoding: UTF-8
+      string: '21856'
+  recorded_at: Sun, 01 Feb 2026 08:53:21 GMT
+recorded_with: VCR 6.4.0

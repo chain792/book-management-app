@@ -1,3 +1,4 @@
+# typed: true
 class UsersController < ApplicationController
   allow_unauthenticated_access only: %i[index new create show following follower]
   before_action :set_user, only: %i[show following follower]

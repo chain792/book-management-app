@@ -1,9 +1,11 @@
+# typed: true
+
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[update destroy]
+  extend T::Sig
 
   def create
-    @comment = current_user.comments.build(comment_params)
-    
+    @comment = current_user!.comments.build(comment_params)
+
     if @comment.save
       redirect_to book_path(@comment.book)
     else
@@ -14,6 +16,7 @@ class CommentsController < ApplicationController
   end
 
   def update
+    @comment = current_comment
     if @comment.update(comment_update_params)
       redirect_to book_path(@comment.book), status: :see_other
     else
@@ -25,20 +28,24 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @comment = current_comment
     @comment.destroy!
     redirect_to book_path(@comment.book), status: :see_other
   end
 
   private
 
-  def set_comment
-    @comment = current_user.comments.find(params[:id])
+  sig { returns(Comment) }
+  def current_comment
+    current_user!.comments.find(params[:id])
   end
 
+  sig { returns(ActionController::Parameters) }
   def comment_params
     params.require(:comment).permit(:body).merge(book_id: params[:book_id])
   end
 
+  sig { returns(ActionController::Parameters) }
   def comment_update_params
     params.require(:comment).permit(:body)
   end

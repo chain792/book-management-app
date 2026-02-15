@@ -1,5 +1,12 @@
+# typed: true
+
 class Book < ApplicationRecord
-  include ImageUploader::Attachment(:book_image)
+  extend T::Sig
+
+  include BookAttachments
+
+  sig { returns(T.nilable(String)) }
+  def book_image_url; end
 
   belongs_to :user
   belongs_to :category
@@ -12,13 +19,14 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :body, length: { minimum: 5, maximum: 2000 }
 
+  sig { params(authors: T.nilable(T::Array[String])).returns(T::Boolean) }
   def save_with_author(authors)
     ActiveRecord::Base.transaction do
       self.save!
       self.authors = authors.uniq.reject(&:blank?).map { |name| Author.find_or_initialize_by(name: name.strip) } unless authors.nil?
     end
     true
-    rescue StandardError
-      false
+  rescue StandardError
+    false
   end
 end

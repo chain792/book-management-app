@@ -1,3 +1,4 @@
+# typed: true
 class StaticPagesController < ApplicationController
   skip_before_action :require_authentication
 

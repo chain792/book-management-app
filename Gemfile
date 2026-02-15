@@ -43,6 +43,7 @@ gem "image_processing", "~> 1.2"
 gem "dotenv-rails"
 gem "faraday"
 gem "rails-i18n", "~> 8.0"
+gem "view_component"
 
 gem "shrine"
 gem "aws-sdk-s3"
@@ -87,3 +88,8 @@ group :test do
   gem "webmock"
   gem "simplecov", require: false
 end
+
+# sorbet
+gem "sorbet", group: :development
+gem "sorbet-runtime"
+gem "tapioca", require: false, group: [ :development, :test ]

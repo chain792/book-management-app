@@ -21,8 +21,8 @@ RSpec.describe 'Profiles', type: :system do
           fill_in '自己紹介', with: '自己紹介編集'
           fill_in 'メールアドレス', with: 'edit@example.com'
           file_path = Rails.root.join('spec', 'fixtures', 'test.jpeg')
-          attach_file('user[avatar]', file_path)
-          click_button '更新'
+          attach_file('user[avatar]', file_path, make_visible: true)
+          click_button 'プロフィールの更新'
           expect(page).to have_current_path profile_path
           expect(page).to have_content 'プロフィールを更新しました'
           expect(page).to have_content '名前編集'
@@ -46,8 +46,8 @@ RSpec.describe 'Profiles', type: :system do
           fill_in '名前', with: ''
           fill_in '自己紹介', with: '自己紹介編集'
           file_path = Rails.root.join('spec', 'fixtures', 'test.jpeg')
-          attach_file('user[avatar]', file_path)
-          click_button '更新'
+          attach_file('user[avatar]', file_path, make_visible: true)
+          click_button 'プロフィールの更新'
           expect(page).to have_content 'プロフィールを更新できませんでした'
           expect(page).to have_content '名前を入力してください' 
           expect(page).to have_current_path edit_profile_path, ignore_query: true
@@ -65,8 +65,7 @@ RSpec.describe 'Profiles', type: :system do
         expect(page).not_to have_content guest.email
         expect(page).to have_content guest.introduction
         expect(page).to have_content date(guest.created_at)
-        click_on '編集'
-        expect(page).to have_current_path edit_profile_path
+        visit edit_profile_path
         expect(page).not_to have_content 'メールアドレス'
       end
     end

@@ -1,0 +1,12 @@
+<% case @type %>
+<% when "text" %>
+  <%= form.text_field field, class: "#{base_classes} #{@class_names}", placeholder: @placeholder, **@options %>
+<% when "email" %>
+  <%= form.email_field field, class: "#{base_classes} #{@class_names}", placeholder: @placeholder, **@options %>
+<% when "password" %>
+  <%= form.password_field field, class: "#{base_classes} #{@class_names}", placeholder: @placeholder, **@options %>
+<% when "number" %>
+  <%= form.number_field field, class: "#{base_classes} #{@class_names}", placeholder: @placeholder, **@options %>
+<% when "search" %>
+  <%= form.search_field field, class: "#{base_classes} #{@class_names}", placeholder: @placeholder, **@options %>
+<% end %>

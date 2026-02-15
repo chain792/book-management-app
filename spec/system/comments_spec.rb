@@ -13,7 +13,7 @@ RSpec.describe 'Comments', type: :system do
         visit book_path(book)
         fill_in 'comment[body]', with: 'コメントテスト投稿'
         expect{
-          click_button '投稿'
+          click_button 'コメントを投稿'
           expect(page).to have_content 'コメントテスト投稿'
         }.to change{ Comment.count }.by(1)
         expect(page).to have_current_path book_path(book)
@@ -21,10 +21,11 @@ RSpec.describe 'Comments', type: :system do
 
       it 'コメントの編集ができる', js: true do
         visit book_path(comment_by_me.book)
-        find('[data-controller="dropdown"] button').click
+        comment_item = find('#comments-list li', text: comment_by_me.body)
+        comment_item.find('[data-controller="dropdown"] button').click
         click_button '編集する'
         find('#comments-list textarea').set('コメントテスト編集')
-        click_button '保存'
+        click_button '更新する'
         expect(page).to have_content 'コメントテスト編集' 
         expect(page).not_to have_content comment_by_me.body
         expect(page).to have_current_path book_path(comment_by_me.book)
@@ -32,7 +33,8 @@ RSpec.describe 'Comments', type: :system do
 
       it 'コメントの編集をキャンセルできる', js: true do
         visit book_path(comment_by_me.book)
-        find('[data-controller="dropdown"] button').click
+        comment_item = find('#comments-list li', text: comment_by_me.body)
+        comment_item.find('[data-controller="dropdown"] button').click
         click_button '編集する'
         find('#comments-list textarea').set('コメントテスト編集')
         click_button 'キャンセル'
@@ -44,10 +46,12 @@ RSpec.describe 'Comments', type: :system do
       it 'コメントの削除できる', js: true do
         visit book_path(comment_by_me.book)
         body = comment_by_me.body
-        find('[data-controller="dropdown"] button').click
+        comment_item = find('#comments-list li', text: comment_by_me.body)
+        comment_item.find('[data-controller="dropdown"] button').click
         expect{
-          click_link '削除'
-          page.accept_confirm
+          accept_confirm do
+            click_link '削除する'
+          end
           expect(page).not_to have_content comment_by_me.body
         }.to change{ Comment.count }.by(-1)
         expect(page).not_to have_content body
@@ -56,12 +60,15 @@ RSpec.describe 'Comments', type: :system do
 
       it '自分が追加したコメントには歯車アイコンが表示される' do
         visit book_path(comment_by_me.book)
-        expect(page).to have_selector '[data-controller="dropdown"] button'
+        comment_item = find('#comments-list li', text: comment_by_me.body)
+        expect(comment_item).to have_selector '[data-controller="dropdown"] button'
       end
 
       it '他人が追加したコメントには歯車アイコンが表示されない' do
         visit book_path(comment.book)
-        expect(page).not_to have_selector '[data-controller="dropdown"] button'
+        within('#comments-list') do
+          expect(page).not_to have_selector '[data-controller="dropdown"] button'
+        end
       end
     end
 
@@ -70,7 +77,7 @@ RSpec.describe 'Comments', type: :system do
         visit book_path(book)
         fill_in 'comment[body]', with: ''
         expect{
-          click_button '投稿'
+          click_button 'コメントを投稿'
           expect(page).to have_content 'コメントを入力してください'
         }.to change{ Comment.count }.by(0)
         expect(page).to have_current_path book_path(book)
@@ -78,10 +85,11 @@ RSpec.describe 'Comments', type: :system do
 
       it '未入力な場合、コメントの編集ができない', js: true do
         visit book_path(comment_by_me.book)
-        find('[data-controller="dropdown"] button').click
+        comment_item = find('#comments-list li', text: comment_by_me.body)
+        comment_item.find('[data-controller="dropdown"] button').click
         click_button '編集する'
         find('#comments-list textarea').set('')
-        click_button '保存'
+        click_button '更新する'
         expect(page).to have_content 'コメントを入力してください'
         expect(page).to have_current_path book_path(comment_by_me.book)
       end

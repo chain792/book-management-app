@@ -26,17 +26,15 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <% if authenticated? %>
-      <%= render 'shared/header' %>
-      <!------  render 'shared/sidebar' %> -->
-    <% else %>
-      <%= render 'shared/before_login_header' %>
-    <% end %>
-    <%= render 'shared/flash_message' %>
-    <main>
+  <body class="selection:bg-brand-200">
+    <%= render HeaderComponent.new(current_user: current_user) %>
+
+    <%= render FlashComponent.new(flash: flash) %>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <%= yield %>
     </main>
+    
     <%= render 'shared/footer' %>
   </body>
 </html>

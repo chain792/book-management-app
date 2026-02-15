@@ -1,57 +1,69 @@
-<% content_for(:title, @book.title) %>
+<% content_for(:title, 'レビューを編集') %>
 
-<div class="mx-auto mt-3 max-w-3xl px-4">
-  <h1 class="mb-3 text-2xl font-bold text-gray-900">
-    レビュー編集
-  </h1>
+<div class="max-w-3xl mx-auto space-y-10">
+  <div class="text-center space-y-4">
+    <h1 class="text-3xl font-black text-brand-900 tracking-tight">
+      レビューを編集
+    </h1>
+  </div>
 
-  <!-- 本情報カード -->
-  <div class="mb-4 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
-    <div class="flex">
-      <!-- 画像 -->
-      <div class="w-5/12">
-        <%= image_tag @book.book_image_url || "/sample.png",
-          class: "h-auto max-w-full rounded border" %>
+  <!-- Book Info Card -->
+  <div class="glass p-6 rounded-[2rem] border border-brand-100 shadow-xl overflow-hidden group">
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="md:w-1/3">
+        <div class="relative">
+          <div class="absolute -inset-2 bg-brand-500/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <%= image_tag @book.book_image_url || "/sample.png",
+                class: "relative w-full h-auto rounded-2xl shadow-lg border border-brand-50 transition-transform duration-500 group-hover:scale-[1.02]" %>
+        </div>
       </div>
 
-      <!-- 本情報 -->
-      <div class="w-7/12">
-        <div class="p-4">
-          <h5 class="mb-1 text-base font-semibold text-gray-900">
+      <div class="md:w-2/3 flex flex-col justify-center space-y-4">
+        <div>
+          <h2 class="text-xl font-black text-brand-900 leading-tight mb-2">
             <%= @book.title %>
-          </h5>
-
-          <p class="mb-2 text-sm text-gray-700">
+          </h2>
+          <p class="text-brand-500 font-bold">
             <%= @book.authors.pluck(:name).join(', ') %>
           </p>
-
-          <p class="mb-2 text-xs text-gray-500">
-            <%= @book.published_date %>
-          </p>
-
-          <%= link_to '詳細を見る',
-            @book.info_link,
-            target: '_blank',
-            class: "text-sm text-blue-600 hover:text-blue-700 underline" %>
         </div>
+        
+        <p class="text-xs font-bold text-brand-300 uppercase tracking-widest">
+          発売日: <%= @book.published_date.presence || "不明" %>
+        </p>
+
+        <%= link_to @book.info_link, target: '_blank', class: "inline-flex items-center text-sm font-bold text-brand-600 hover:text-brand-900 transition-colors group/link" do %>
+          詳細を見る（Google Books）
+          <svg class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        <% end %>
       </div>
     </div>
   </div>
 
-  <!-- 編集フォーム -->
-  <%= form_with model: @book, url: book_path(@book) do |f| %>
-    <%= render 'shared/error_message', object: f.object %>
+  <!-- Edit Form -->
+  <div class="glass p-8 md:p-10 rounded-[2.5rem] border-none shadow-2xl">
+    <%= form_with model: @book, url: book_path(@book), class: "space-y-8" do |f| %>
+      <%= render 'shared/error_message', object: f.object %>
 
-    <div class="mb-3">
-      <%= f.label :body,
-        class: "mb-1 block text-sm font-bold text-gray-900" %>
+      <div class="space-y-3">
+        <%= render Ui::Form::LabelComponent.new(form: f, field: :body, text: "レビュー内容") %>
+        <%= render Ui::Form::TextAreaComponent.new(
+              form: f, 
+              field: :body, 
+              rows: 8, 
+              placeholder: "内容をさらに充実させましょう..."
+            ) %>
+        <p class="text-[10px] text-brand-300 font-bold px-2 italic text-right">※ 5文字以上入力してください</p>
+      </div>
 
-      <%= f.text_area :body,
-        rows: 5,
-        placeholder: "5文字以上で入力してください",
-        class: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
-    </div>
-
-    <%= f.submit class: "rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors" %>
-  <% end %>
+      <div class="pt-8 border-t border-brand-50 flex items-center justify-between">
+        <%= link_to 'キャンセル', book_path(@book), class: 'text-sm font-bold text-brand-400 hover:text-brand-600 transition-colors' %>
+        <%= render Ui::ButtonComponent.new(type: "submit", class_names: "px-10 py-4 cursor-pointer") do %>
+          レビューを更新する
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
