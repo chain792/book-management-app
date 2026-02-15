@@ -3,18 +3,21 @@
 class BooksController < ApplicationController
   extend T::Sig
 
-  skip_before_action :require_authentication, only: %i[index show]
+  allow_unauthenticated_access only: %i[index show]
 
+  sig { void }
   def index
     @books = Book.all.includes(:authors, :user, :category).order(created_at: :desc)
   end
 
+  sig { void }
   def new
     @book = Book.new
     @volume_info = params[:volumeInfo]
     set_category
   end
 
+  sig { void }
   def create
     @book = current_user!.books.build(book_params)
     if @book.save_with_author(authors_params[:authors])
@@ -27,17 +30,20 @@ class BooksController < ApplicationController
     end
   end
 
+  sig { void }
   def show
     @book = Book.find(params[:id])
     @comment = Comment.new
     @comments = @book.comments.includes(:user).order(:id)
   end
 
+  sig { void }
   def edit
     @book = current_book
     set_category
   end
 
+  sig { void }
   def update
     @book = current_book
     if @book.update(book_params)
@@ -49,12 +55,14 @@ class BooksController < ApplicationController
     end
   end
 
+  sig { void }
   def destroy
     @book = current_book
     @book.destroy!
     redirect_to books_path, notice: "レビューを削除しました", status: :see_other
   end
 
+  sig { void }
   def search
     if params[:search].nil?
       nil

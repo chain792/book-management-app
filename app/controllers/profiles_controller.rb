@@ -3,14 +3,17 @@
 class ProfilesController < ApplicationController
   extend T::Sig
 
+  sig { void }
   def show
     @books = current_user!.books.includes(:authors, :category)
   end
 
+  sig { void }
   def edit
     @user = current_profile_user
   end
 
+  sig { void }
   def update
     @user = current_profile_user
     if @user.update(user_params)

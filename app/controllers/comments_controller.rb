@@ -3,6 +3,7 @@
 class CommentsController < ApplicationController
   extend T::Sig
 
+  sig { void }
   def create
     @comment = current_user!.comments.build(comment_params)
 
@@ -15,6 +16,7 @@ class CommentsController < ApplicationController
     end
   end
 
+  sig { void }
   def update
     @comment = current_comment
     if @comment.update(comment_update_params)
@@ -27,6 +29,7 @@ class CommentsController < ApplicationController
     end
   end
 
+  sig { void }
   def destroy
     @comment = current_comment
     @comment.destroy!

@@ -1,8 +1,0 @@
-<div id="<%= dom_id(book, :like_button) %>">
-  <% if authenticated? && current_user.like?(book) %>
-    <%= render 'likes/like', book: book %>
-  <% else %>
-    <%= render 'likes/unlike', book: book %>
-  <% end %>
-</div>
-

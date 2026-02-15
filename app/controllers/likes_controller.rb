@@ -3,6 +3,7 @@
 class LikesController < ApplicationController
   extend T::Sig
 
+  sig { void }
   def create
     @book = Book.find(params[:book_id])
     current_user!.like(@book)
@@ -13,6 +14,7 @@ class LikesController < ApplicationController
     end
   end
 
+  sig { void }
   def destroy
     @book = current_user!.likes.find(params[:id]).book
     current_user!.unlike(@book)

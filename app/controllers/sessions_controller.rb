@@ -6,9 +6,11 @@ class SessionsController < ApplicationController
   allow_unauthenticated_access only: %i[ new create guest_login ]
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { T.bind(self, SessionsController).redirect_to login_path, alert: "Try again later." }
 
+  sig { void }
   def new
   end
 
+  sig { void }
   def create
     if user = User.authenticate_by(params.permit(:email, :password))
       start_new_session_for user
@@ -18,11 +20,13 @@ class SessionsController < ApplicationController
     end
   end
 
+  sig { void }
   def destroy
     terminate_session
     redirect_to root_path, notice: "ログアウトしました", status: :see_other
   end
 
+  sig { void }
   def guest_login
     random_value = SecureRandom.alphanumeric(10) + Time.zone.now.to_i.to_s
     @guest_user = User.create(

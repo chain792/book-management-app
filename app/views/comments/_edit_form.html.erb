@@ -1,5 +1,5 @@
 <%= form_with model: comment, id: dom_id(comment, :form), data: { action: "turbo:submit-end->comment#afterSubmit" }, class: "space-y-3" do |f| %>
-  <%= render 'shared/error_message', object: f.object %>
+  <%= render ErrorMessageComponent.new(object: f.object) %>
   <%= render Ui::Form::TextAreaComponent.new(
         form: f, 
         field: :body, 

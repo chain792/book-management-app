@@ -3,6 +3,7 @@
 class RelationshipsController < ApplicationController
   extend T::Sig
 
+  sig { void }
   def create
     @user = User.find(params[:follower_id])
     current_user!.follow(@user)
@@ -11,6 +12,7 @@ class RelationshipsController < ApplicationController
     end
   end
 
+  sig { void }
   def destroy
     @user = current_user!.active_relationships.find(params[:id]).follower
     current_user!.unfollow(@user)

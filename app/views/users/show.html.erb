@@ -1,52 +1,73 @@
 <% content_for(:title, @user.name + 'さん') %>
-<div class="container mx-auto mt-3 px-3">
-  <div class="flex justify-center">
-    <div class="w-full md:w-10/12 xl:w-8/12">
-      <h1 class="mb-3 text-2xl font-bold">ユーザー詳細</h1>
 
-      <!-- ユーザ情報 -->
-      <div class="bg-white border rounded-xl p-4 min-w-[300px]">
-        <div class="flex items-center space-x-4">
-          <%= image_tag @user.avatar_url || "default_avatar.png", size: '60x60', class: 'rounded-full' %>
-          <div class="flex flex-col md:flex-row md:items-center md:space-x-3">
-            <h3 class="text-xl font-semibold"><%= @user.name %></h3>
-            <%= render 'relationships/follow_button', user: @user %>
+<!-- User Profile Header -->
+<div class="glass p-8 md:p-12 rounded-[3rem] border-none shadow-indigo-100/50 relative overflow-hidden">
+  <div class="absolute -top-24 -right-24 w-64 h-64 bg-brand-500/5 blur-3xl rounded-full"></div>
+
+  <div class="relative flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-12">
+    <!-- Avatar -->
+    <div class="relative group">
+      <div class="absolute -inset-1 bg-gradient-to-tr from-brand-600 to-accent-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+      <%= image_tag @user.avatar_url.presence || "default_avatar.png", class: "relative w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white object-cover shadow-2xl" %>
+    </div>
+
+    <!-- Info -->
+    <div class="flex-grow text-center md:text-left space-y-6">
+      <div class="space-y-3">
+        <h1 class="text-3xl md:text-5xl font-black text-brand-900 tracking-tight">
+          <%= @user.name %>
+        </h1>
+        <%= render FollowButtonComponent.new(user: @user, current_user: current_user) %>
+      </div>
+
+      <% if @user.introduction.present? %>
+        <div class="max-w-xl">
+          <p class="text-brand-600 leading-relaxed font-medium">
+            <%= simple_format @user.introduction %>
+          </p>
+        </div>
+      <% end %>
+
+      <!-- Stats -->
+      <div class="flex items-center space-x-6 pt-4">
+        <%= link_to following_user_path(@user), id: 'follow-count', class: "group/stat" do %>
+          <div class="text-center md:text-left">
+            <span class="block text-2xl font-black text-brand-900 group-hover/stat:text-brand-600 transition-colors"><%= @user.followings.length %></span>
+            <span class="text-[10px] font-bold text-brand-300 uppercase tracking-widest">フォロー中</span>
           </div>
-        </div>
-
-        <div class="pt-3">
-          <p class="border-b font-semibold mb-2">自己紹介</p>
-          <p class="whitespace-pre-wrap"><%= simple_format @user.introduction %></p>
-        </div>
-
-        <div class="flex space-x-4 mt-2">
-          <%= link_to following_user_path(@user), id: 'follow-count', class: 'flex items-center space-x-1 text-decoration-none' do %>
-            <span class="text-gray-900 font-semibold"><%= @user.followings.length %></span>
-            <small class="text-gray-500">フォロー中</small>
-          <% end %>
-
-          <%= link_to follower_user_path(@user), id: 'follower-count', class: 'flex items-center space-x-1 text-decoration-none' do %>
-            <span class="text-gray-900 font-semibold"><%= @user.followers.length %></span>
-            <small class="text-gray-500">フォロワー</small>
-          <% end %>
-        </div>
-      </div>
-
-      <!-- レビュー履歴 -->
-      <div class="bg-white border rounded-xl px-4 mt-3 min-w-[300px]">
-        <p class="py-1 my-2 font-semibold">レビュー履歴</p>
-      </div>
-
-      <!-- 投稿一覧 -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
-        <% if @books.present? %>
-          <% @books.each do |book| %>
-            <%= render 'books/book', book: book %>
-          <% end %>
-        <% else %>
-          <p class="text-gray-500">レビューした本はありません。</p>
+        <% end %>
+        <%= link_to follower_user_path(@user), id: 'follower-count', class: "group/stat" do %>
+          <div class="text-center md:text-left">
+            <span class="block text-2xl font-black text-brand-900 group-hover/stat:text-brand-600 transition-colors"><%= @user.followers.length %></span>
+            <span class="text-[10px] font-bold text-brand-300 uppercase tracking-widest">フォロワー</span>
+          </div>
         <% end %>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Review History -->
+<div class="mt-20 space-y-10">
+  <div class="flex items-center justify-between px-2">
+    <h2 class="text-2xl font-black text-brand-900 tracking-tight flex items-center">
+      <svg class="w-6 h-6 mr-3 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+      レビュー履歴
+    </h2>
+    <span class="text-sm font-bold text-brand-400"><%= @books.size %> 投稿</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <% if @books.present? %>
+      <% @books.each do |book| %>
+        <%= render BookCardComponent.new(book: book) %>
+      <% end %>
+    <% else %>
+      <div class="col-span-full py-20 text-center glass rounded-[2rem] border-dashed border-2 border-brand-100">
+        <p class="text-brand-400 font-bold">レビューした本はありません。</p>
+      </div>
+    <% end %>
   </div>
 </div>

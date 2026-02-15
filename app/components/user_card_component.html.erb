@@ -1,0 +1,25 @@
+<div class="group relative glass rounded-2xl border-none overflow-hidden card-hover">
+  <div class="p-6">
+    <div class="flex items-center space-x-4">
+      <!-- Avatar -->
+      <div class="relative">
+        <div class="absolute -inset-0.5 bg-gradient-to-tr from-brand-600 to-accent-500 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+        <%= image_tag avatar_url, class: "relative w-14 h-14 rounded-full border-2 border-white object-cover shadow-md" %>
+      </div>
+
+      <!-- Name & Follow -->
+      <div class="flex flex-col md:flex-row md:items-center md:space-x-3 flex-grow min-w-0">
+        <h3 class="text-lg font-black text-brand-900 tracking-tight truncate"><%= user.name %></h3>
+        <%= render FollowButtonComponent.new(user: user, current_user: current_user) %>
+      </div>
+    </div>
+
+    <% if introduction_text.present? %>
+      <div class="mt-4 pt-3 border-t border-brand-100/50">
+        <p class="text-sm text-brand-600 font-medium leading-relaxed"><%= introduction_text %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to '', helpers.user_path(user), class: 'absolute inset-0 z-10' %>
+</div>

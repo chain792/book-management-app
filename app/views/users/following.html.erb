@@ -1,16 +1,22 @@
 <% content_for(:title, 'フォロー一覧') %>
-<div class="container mx-auto mt-3 px-3">
-  <div class="flex justify-center">
-    <div class="w-full md:w-10/12 lg:w-8/12">
-      <div class="border rounded-lg px-4 mt-3 mb-1 min-w-[300px]">
-        <p class="py-1 my-2 font-semibold text-lg"><%= @user.name %> さんがフォローしているユーザ</p>
-      </div>
 
-      <% if @users.present? %>
-        <%= render @users %>
-      <% else %>
-        <p class="text-gray-500 mt-3">フォローしているユーザはいません。</p>
-      <% end %>
+<div class="glass p-6 md:p-8 rounded-[2rem] border-none">
+  <h1 class="text-2xl font-black text-brand-900 tracking-tight flex items-center">
+    <svg class="w-6 h-6 mr-3 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+    <%= @user.name %> さんがフォローしているユーザ
+  </h1>
+</div>
+
+<div class="mt-8 space-y-4">
+  <% if @users.present? %>
+    <% @users.each do |user| %>
+      <%= render UserCardComponent.new(user: user, current_user: current_user) %>
+    <% end %>
+  <% else %>
+    <div class="py-16 text-center glass rounded-[2rem] border-dashed border-2 border-brand-100">
+      <p class="text-brand-400 font-bold">フォローしているユーザはいません。</p>
     </div>
-  </div>
+  <% end %>
 </div>

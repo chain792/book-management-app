@@ -2,10 +2,36 @@
 
 このプロジェクトでは、UIの一貫性と保守性を高めるために `ViewComponent` を導入しています。
 
+## 新規コンポーネント作成手順
+
+1. `app/components/` に `.rb` と `.html.erb` を作成
+2. `ApplicationComponent` を継承
+3. `# typed: strict` + 全メソッドに `sig` を付与
+4. keyword引数 + private `attr_reader` with sig
+5. `spec/components/` にspecを作成（`render_inline` + `expect(page)`）
+
+```ruby
+# typed: strict
+class NewComponent < ApplicationComponent
+  sig { params(model: Model).void }
+  def initialize(model:)
+    @model = model
+  end
+
+  private
+
+  sig { returns(Model) }
+  attr_reader :model
+end
+```
+
 ## 共通ベースコンポーネント
 
 ### `ApplicationComponent`
 全てのコンポーネントの基底クラスです。Sorbetによる型チェックが有効になっており、ヘルパーメソッドへのアクセスを提供します。
+- **ファイル**: `app/components/application_component.rb`
+- **継承元**: `ViewComponent::Base`
+- **include**: `ActionView::Helpers::AssetTagHelper`, `ActionView::Helpers::UrlHelper`, `ActionView::RecordIdentifier`
 
 ---
 

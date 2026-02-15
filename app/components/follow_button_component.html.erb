@@ -1,0 +1,12 @@
+<div id="<%= dom_id_value %>" class="ms-3">
+  <% if following? %>
+    <%= button_to 'フォロー中',
+        unfollow_path,
+        method: :delete,
+        class: 'inline-flex items-center rounded-full bg-gray-200 px-4 py-1 text-sm font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300' %>
+  <% else %>
+    <%= button_to 'フォロー',
+        helpers.relationships_path(follower_id: user.id),
+        class: 'inline-flex items-center rounded-full bg-blue-600 px-4 py-1 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300' %>
+  <% end %>
+</div>
