@@ -5,7 +5,6 @@ class OauthsController < ApplicationController
 
   allow_unauthenticated_access only: %i[create failure]
 
-  sig { void }
   def create
     # request.env is untyped in many RBIs, so T.unsafe(request.env) might be needed for find_or_create params
     auth_hash = T.unsafe(request.env)["omniauth.auth"]
@@ -17,7 +16,6 @@ class OauthsController < ApplicationController
     redirect_to after_authentication_url, notice: "ログインしました"
   end
 
-  sig { void }
   def failure
     redirect_to root_path, alert: "ログインに失敗しました"
   end

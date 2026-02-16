@@ -4,12 +4,10 @@ class CategoriesController < ApplicationController
 
   allow_unauthenticated_access only: %i[show]
 
-  sig { void }
   def index
     @categories = Category.all
   end
 
-  sig { void }
   def show
     @category = Category.find(params[:id])
     category_ids = @category.subtree_ids

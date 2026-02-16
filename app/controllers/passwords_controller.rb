@@ -6,11 +6,9 @@ class PasswordsController < ApplicationController
   allow_unauthenticated_access
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { T.bind(self, PasswordsController).redirect_to new_password_path, alert: "Try again later." }
 
-  sig { void }
   def new
   end
 
-  sig { void }
   def create
     if user = User.find_by(email: params[:email_address])
       PasswordsMailer.reset(user).deliver_later
@@ -19,11 +17,9 @@ class PasswordsController < ApplicationController
     redirect_to login_path, notice: "Password reset instructions sent (if user with that email address exists)."
   end
 
-  sig { void }
   def edit
   end
 
-  sig { void }
   def update
     @user = current_reset_user
     if @user.update(params.permit(:password, :password_confirmation))

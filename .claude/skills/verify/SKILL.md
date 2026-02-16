@@ -1,4 +1,13 @@
-テストと型チェックを実行してプロジェクトの健全性を確認する。
+---
+name: verify
+description: テストと型チェックを実行してプロジェクトの健全性を確認する。/verify で実行。
+user-invocable: true
+allowed-tools: Bash
+---
+
+# プロジェクト検証
+
+テストとSorbet型チェックを実行し、結果をサマリとして報告する。
 
 ## 手順
 

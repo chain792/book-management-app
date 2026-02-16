@@ -3,10 +3,9 @@
 class LikesController < ApplicationController
   extend T::Sig
 
-  sig { void }
   def create
     @book = Book.find(params[:book_id])
-    current_user!.like(@book)
+    current_user.like(@book)
 
     respond_to do |format|
       format.html { redirect_to book_path(@book), status: :see_other }
@@ -14,10 +13,9 @@ class LikesController < ApplicationController
     end
   end
 
-  sig { void }
   def destroy
-    @book = current_user!.likes.find(params[:id]).book
-    current_user!.unlike(@book)
+    @book = current_user.likes.find(params[:id]).book
+    current_user.unlike(@book)
 
     respond_to do |format|
       format.html { redirect_to book_path(@book), status: :see_other }

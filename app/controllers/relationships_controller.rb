@@ -3,19 +3,17 @@
 class RelationshipsController < ApplicationController
   extend T::Sig
 
-  sig { void }
   def create
     @user = User.find(params[:follower_id])
-    current_user!.follow(@user)
+    current_user.follow(@user)
     respond_to do |format|
       format.turbo_stream
     end
   end
 
-  sig { void }
   def destroy
-    @user = current_user!.active_relationships.find(params[:id]).follower
-    current_user!.unfollow(@user)
+    @user = current_user.active_relationships.find(params[:id]).follower
+    current_user.unfollow(@user)
     respond_to do |format|
       format.turbo_stream
     end

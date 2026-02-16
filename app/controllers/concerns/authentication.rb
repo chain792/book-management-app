@@ -56,7 +56,7 @@ module Authentication
       nil
     end
 
-    sig { returns(T.any(String, T.untyped)) }
+    sig { returns(String) }
     def after_authentication_url
       T.bind(self, ActionController::Base)
       T.unsafe(self).session.delete(:return_to_after_authenticating) || T.unsafe(self).root_url
@@ -78,14 +78,10 @@ module Authentication
       cookies.delete(:session_id)
     end
 
-    sig { returns(T.nilable(User)) }
+    # 認証されている前提で使用すること
+    sig { returns(User) }
     def current_user
       resume_session
-      Current.session&.user
-    end
-
-    sig { returns(User) }
-    def current_user!
-      T.must(current_user)
+      Current.session&.user || Kernel.raise(ActiveRecord::RecordNotFound, "User not authenticated")
     end
 end

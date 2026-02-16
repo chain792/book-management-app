@@ -3,9 +3,8 @@
 class CommentsController < ApplicationController
   extend T::Sig
 
-  sig { void }
   def create
-    @comment = current_user!.comments.build(comment_params)
+    @comment = current_user.comments.build(comment_params)
 
     if @comment.save
       redirect_to book_path(@comment.book)
@@ -16,7 +15,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  sig { void }
   def update
     @comment = current_comment
     if @comment.update(comment_update_params)
@@ -29,7 +27,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  sig { void }
   def destroy
     @comment = current_comment
     @comment.destroy!
@@ -40,7 +37,7 @@ class CommentsController < ApplicationController
 
   sig { returns(Comment) }
   def current_comment
-    current_user!.comments.find(params[:id])
+    current_user.comments.find(params[:id])
   end
 
   sig { returns(ActionController::Parameters) }
