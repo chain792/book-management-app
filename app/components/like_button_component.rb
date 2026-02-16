@@ -18,7 +18,7 @@ class LikeButtonComponent < ApplicationComponent
   sig { returns(T::Boolean) }
   def liked?
     return false unless current_user
-    current_user.like?(book)
+    T.must(current_user).like?(book)
   end
 
   sig { returns(String) }
@@ -39,7 +39,7 @@ class LikeButtonComponent < ApplicationComponent
   sig { returns(T.nilable(String)) }
   def unlike_path
     return nil unless current_user
-    like = current_user.likes.find { |v| v.book_id == book.id }
+    like = T.must(current_user).likes.find { |v| v.book_id == book.id }
     like ? helpers.like_path(like) : nil
   end
 end

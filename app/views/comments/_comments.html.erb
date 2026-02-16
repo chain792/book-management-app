@@ -9,7 +9,7 @@
 
   <ol id="comments-list" class="divide-y divide-brand-50">
     <% comments.each do |comment| %>
-      <%= render CommentComponent.new(comment: comment, current_user: current_user) %>
+      <%= render CommentComponent.new(comment: comment, current_user: authenticated? ? current_user : nil) %>
     <% end %>
   </ol>
 

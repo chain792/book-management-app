@@ -17,7 +17,7 @@
         <h1 class="text-3xl md:text-5xl font-black text-brand-900 tracking-tight">
           <%= @user.name %>
         </h1>
-        <%= render FollowButtonComponent.new(user: @user, current_user: current_user) %>
+        <%= render FollowButtonComponent.new(user: @user, current_user: authenticated? ? current_user : nil) %>
       </div>
 
       <% if @user.introduction.present? %>

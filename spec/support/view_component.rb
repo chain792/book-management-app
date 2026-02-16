@@ -1,3 +1,4 @@
+# typed: ignore
 require "view_component/test_helpers"
 
 RSpec.configure do |config|

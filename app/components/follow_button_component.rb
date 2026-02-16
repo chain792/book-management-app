@@ -23,7 +23,7 @@ class FollowButtonComponent < ApplicationComponent
   sig { returns(T::Boolean) }
   def following?
     return false unless current_user
-    current_user.follow?(user)
+    T.must(current_user).follow?(user)
   end
 
   sig { returns(String) }
@@ -34,7 +34,7 @@ class FollowButtonComponent < ApplicationComponent
   sig { returns(T.nilable(String)) }
   def unfollow_path
     return nil unless current_user
-    relationship = current_user.active_relationships.find { |v| v.follower_id == user.id }
+    relationship = T.must(current_user).active_relationships.find { |v| v.follower_id == user.id }
     relationship ? helpers.relationship_path(relationship) : nil
   end
 end

@@ -27,7 +27,7 @@
   </head>
 
   <body class="selection:bg-brand-200">
-    <%= render HeaderComponent.new(current_user: current_user) %>
+    <%= render HeaderComponent.new(current_user: authenticated? ? current_user : nil) %>
 
     <%= render FlashComponent.new(flash: flash) %>
 
