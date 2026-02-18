@@ -6,7 +6,7 @@
 
   <div class="glass p-8 md:p-12 rounded-[2.5rem] border-none shadow-2xl">
     <%= form_with model: @user, url: profile_path, class: "space-y-8" do |f| %>
-      <%= render ErrorMessageComponent.new(object: f.object) %>
+      <%= render Shared::ErrorMessageComponent.new(object: f.object) %>
 
       <div class="grid grid-cols-1 gap-8">
         <!-- Avatar Section -->

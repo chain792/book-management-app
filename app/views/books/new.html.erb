@@ -38,7 +38,7 @@
             controller: "category-select", 
             category_select_categories_value: @categories.to_json 
           } do |f| %>
-        <%= render ErrorMessageComponent.new(object: f.object) %>
+        <%= render Shared::ErrorMessageComponent.new(object: f.object) %>
 
         <div class="space-y-8">
           <div class="space-y-3">

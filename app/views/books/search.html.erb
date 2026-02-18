@@ -48,7 +48,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <% @google_books['items']&.each do |google_book| %>
-          <%= render GoogleBookCardComponent.new(google_book: google_book) %>
+          <%= render Books::GoogleCardComponent.new(google_book: google_book) %>
         <% end %>
       </div>
     </div>

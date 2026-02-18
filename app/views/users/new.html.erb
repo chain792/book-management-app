@@ -8,7 +8,7 @@
 
   <div class="glass p-8 md:p-12 rounded-[2.5rem] border-none shadow-2xl">
     <%= form_with model: @user, class: "space-y-6" do |f| %>
-      <%= render ErrorMessageComponent.new(object: f.object) %>
+      <%= render Shared::ErrorMessageComponent.new(object: f.object) %>
 
       <div class="space-y-4">
         <div class="space-y-2">

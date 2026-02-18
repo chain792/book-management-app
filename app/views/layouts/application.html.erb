@@ -27,14 +27,14 @@
   </head>
 
   <body class="selection:bg-brand-200">
-    <%= render HeaderComponent.new(current_user: authenticated? ? current_user : nil) %>
+    <%= render Layout::HeaderComponent.new(current_user: authenticated? ? current_user : nil) %>
 
-    <%= render FlashComponent.new(flash: flash) %>
+    <%= render Layout::FlashComponent.new(flash: flash) %>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <%= yield %>
     </main>
-    
-    <%= render FooterComponent.new %>
+
+    <%= render Layout::FooterComponent.new %>
   </body>
 </html>

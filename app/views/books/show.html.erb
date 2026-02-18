@@ -1,4 +1,4 @@
-<%= render BookDetailsComponent.new(book: @book, current_user: authenticated? ? current_user : nil) %>
+<%= render Books::DetailsComponent.new(book: @book, current_user: authenticated? ? current_user : nil) %>
 
 <div class="mt-20 pt-10 border-t border-brand-100">
   <div class="max-w-3xl">

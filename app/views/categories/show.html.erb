@@ -18,7 +18,7 @@
   <% if @books.present? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% @books.each do |book| %>
-        <%= render BookCardComponent.new(book: book) %>
+        <%= render Books::CardComponent.new(book: book) %>
       <% end %>
     </div>
   <% else %>

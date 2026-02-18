@@ -1,5 +1,5 @@
 <%= form_with model: [book, comment], id: 'new-comment', class: "space-y-4" do |f| %>
-  <%= render ErrorMessageComponent.new(object: f.object) %>
+  <%= render Shared::ErrorMessageComponent.new(object: f.object) %>
 
   <div class="space-y-2">
     <%= render Ui::Form::LabelComponent.new(form: f, field: :body, text: "コメントを残す") %>

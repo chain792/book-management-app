@@ -1,4 +1,4 @@
-<%= render ProfileHeaderComponent.new(user: current_user) %>
+<%= render Users::ProfileHeaderComponent.new(user: current_user) %>
 
 <div class="mt-20 space-y-10">
   <div class="flex items-center justify-between px-2">
@@ -14,7 +14,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <% if @books.present? %>
       <% @books.each do |book| %>
-        <%= render BookCardComponent.new(book: book) %>
+        <%= render Books::CardComponent.new(book: book) %>
       <% end %>
     <% else %>
       <div class="col-span-full py-20 text-center glass rounded-[2rem] border-dashed border-2 border-brand-100">

@@ -45,7 +45,7 @@
   <!-- Edit Form -->
   <div class="glass p-8 md:p-10 rounded-[2.5rem] border-none shadow-2xl">
     <%= form_with model: @book, url: book_path(@book), class: "space-y-8" do |f| %>
-      <%= render ErrorMessageComponent.new(object: f.object) %>
+      <%= render Shared::ErrorMessageComponent.new(object: f.object) %>
 
       <div class="space-y-3">
         <%= render Ui::Form::LabelComponent.new(form: f, field: :body, text: "レビュー内容") %>
